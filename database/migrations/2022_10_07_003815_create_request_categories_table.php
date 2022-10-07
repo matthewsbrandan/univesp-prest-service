@@ -15,6 +15,15 @@ class CreateRequestCategoriesTable extends Migration
     {
         Schema::create('request_categories', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->string('description');
+            $table->foreignId('user_id');
+            $table->enum('status',[
+                'requested',
+                'approved',
+                'repproved'
+            ]);
+            $table->string('response')->nullable();
             $table->timestamps();
         });
     }

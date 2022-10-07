@@ -15,6 +15,8 @@ class CreateUserAreasTable extends Migration
     {
         Schema::create('user_areas', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('area_id')->constrained('areas');
             $table->timestamps();
         });
     }
