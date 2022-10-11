@@ -2,6 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Auth\LoginController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,9 +17,22 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () { return redirect()->route('home'); });
+Route::get('/', [HomeController::class, 'index'])->name('home');
+
+Route::get('cadastrar-se', [UserController::class, 'register'])->name('register');
+Route::post('cadastrar-se', [UserController::class, 'store'])->name('store');
+Route::get('login', [LoginController::class, 'login'])->name('login');
+Route::post('login', [LoginController::class, 'authenticate'])->name('authenticate');
+
+Route::middleware(['auth'])->group(function(){
+  Route::name('profile.')->group(function(){
+    Route::get('perfil/{username?}', [UserController::class, 'profile'])->name('index');
+  });
+  Route::get('sair', [LoginController::class, 'logout'])->name('logout');
+});
+
+
 Route::get('pages/billing.html', function() { return view('billing'); });
-Route::get('pages/dashboard.html', function() { return view('dashboard'); })->name('home');
 Route::get('pages/icons.html', function() { return view('icons'); });
 Route::get('pages/map.html', function() { return view('map'); });
 Route::get('pages/notifications.html', function() { return view('notifications'); });
