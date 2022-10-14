@@ -17,7 +17,8 @@ use App\Http\Controllers\Auth\LoginController;
 |
 */
 
-Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/', [HomeController::class, 'welcome'])->name('/');
+Route::get('home', [HomeController::class, 'index'])->name('home');
 
 Route::get('cadastrar-se', [UserController::class, 'register'])->name('register');
 Route::post('cadastrar-se', [UserController::class, 'store'])->name('store');
