@@ -78,8 +78,8 @@
           </div>
         </div>
         <div class="col-lg-3 mt-lg-n2 mt-2">
-          <label class="">&nbsp;</label>
-          <button type="button" class="btn bg-gradient-dark w-100 mb-0">Search</button>
+          <label>&nbsp;</label>
+          <button type="button" class="btn bg-gradient-dark w-100 mb-0">Pesquisar</button>
         </div>
       </div>
     </div>

@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\AreaController;
 use App\Http\Controllers\Auth\LoginController;
 
 /*
@@ -29,6 +30,12 @@ Route::middleware(['auth'])->group(function(){
   Route::name('profile.')->group(function(){
     Route::get('perfil/{username?}', [UserController::class, 'profile'])->name('index');
   });
+
+  Route::name('area.')->group(function(){
+    Route::get('condominio/criar', [AreaController::class, 'create'])->name('create');
+    Route::post('condominio/salvar', [AreaController::class, 'store'])->name('store');
+  });
+
   Route::get('sair', [LoginController::class, 'logout'])->name('logout');
 });
 

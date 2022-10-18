@@ -34,6 +34,22 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
   <!-- CSS Files -->
   <link id="pagestyle" href="{{ asset('assets/css/material-dashboard.css?v=3.0.4') }}" rel="stylesheet" />
+
+  @isset($plugins)
+    @if(in_array('quill', $plugins))
+      <link rel="stylesheet" href="//cdn.quilljs.com/1.3.6/quill.snow.css"/>
+    @endif
+    @if(in_array('choices', $plugins))
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/choices.js@9.0.1/public/assets/styles/choices.min.css"
+      />
+    @endif
+    @if(in_array('multisteps-form', $plugins))
+      <link rel="stylesheet" href="{{ asset('css/multisteps-form.css') }}"/>
+    @endif
+  @endisset
+
   @yield('head')
 </head>
 <body class="{{ $body_class ?? '' }}">
@@ -41,6 +57,13 @@
   <!-- BEGIN:: HANDLE THEME -->
   <!--   Core JS Files   -->
   <script src="{{ asset('js/jquery-3.1.1.min.js') }}"></script>
+  <script>
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+  </script>
   @include('utils.modals.message')
   @include('utils.alerts')
   @include('utils.toasts')
@@ -50,7 +73,7 @@
   <script src="{{ asset('assets/js/plugins/smooth-scrollbar.min.js') }}"></script>
   <script>
     var win = navigator.platform.indexOf('Win') > -1;
-    if (win && document.querySelector('#sidenav-scrollbar')) {
+    if(win && document.querySelector('#sidenav-scrollbar')) {
       var options = {
         damping: '0.5'
       }
@@ -96,9 +119,71 @@
         );
       @endif
     });
+    if(document.querySelectorAll('textarea.form-control').length != 0) {
+      var allTextareas = document.querySelectorAll('textarea.form-control');
+      allTextareas.forEach(el => setAttributes(el, {
+        "onfocus": "focused(this)",
+        "onfocusout": "defocused(this)"
+      }));
+
+      $(function(){
+        var textareas = document.querySelectorAll('textarea');
+  
+        for (var i = 0; i < textareas.length; i++) {
+          textareas[i].addEventListener('focus', function(e) {
+            this.parentElement.classList.add('is-focused');
+          }, false);
+      
+          textareas[i].onkeyup = function(e) {
+            if (this.value != "") {
+              this.parentElement.classList.add('is-filled');
+            } else {
+              this.parentElement.classList.remove('is-filled');
+            }
+          };
+      
+          textareas[i].addEventListener('focusout', function(e) {
+            if (this.value != "") {
+              this.parentElement.classList.add('is-filled');
+            }
+            this.parentElement.classList.remove('is-focused');
+          }, false);
+        }
+      })
+    }
   </script>
   <!-- END:: HANDLE NOTIFY -->
+  @isset($plugins)
+    @if(in_array('quill', $plugins))
+      <script src="//cdn.quilljs.com/1.3.6/quill.min.js"></script>
+    @endif
+    @if(in_array('choices', $plugins))
+      <script src="https://cdn.jsdelivr.net/npm/choices.js@9.0.1/public/assets/scripts/choices.min.js"></script>
+      <script>
+        const choicesTextTranslated = {
+          loadingText: 'Carregando...',
+          noResultsText: 'Nenhum resultado encontrado',
+          noChoicesText: 'Sem opções para escolher',
+          itemSelectText: 'Selecione',
+          addItemText: (value) => {
+            return `Pressione enter para adicionar <b>"${value}"</b>`;
+          },
+          maxItemText: (maxItemCount) => {
+            return `Somente valores ${maxItemCount} podem ser adicionados`;
+          }
+        };
+      </script>
+    @endif
+    @if(in_array('jquery-mask', $plugins))
+      <script src="{{ asset('js/jquery-mask-plugin-1.14.16.min.js') }}"></script>
+    @endif
+    @if(in_array('multisteps-form', $plugins))
+      <script src="{{ asset('js/multisteps-form.js') }}"></script>
+    @endif
+  @endisset
+
   @yield('scripts')
+
   <?php
     if(session()->has('unset-session') && is_array(session()->get('unset-session'))){
       foreach(session()->get('unset-session') as $session_name){
