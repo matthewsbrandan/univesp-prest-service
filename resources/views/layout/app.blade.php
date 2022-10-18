@@ -48,6 +48,9 @@
     @if(in_array('multisteps-form', $plugins))
       <link rel="stylesheet" href="{{ asset('css/multisteps-form.css') }}"/>
     @endif
+    @if(in_array('cropper', $plugins))
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.5/croppie.min.css" integrity="sha512-zxBiDORGDEAYDdKLuYU9X/JaJo/DPzE42UubfBw9yg8Qvb2YRRIQ8v4KsGHOx2H1/+sdSXyXxLXv5r7tHc9ygg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    @endif
   @endisset
 
   @yield('head')
@@ -64,6 +67,7 @@
       }
     });
   </script>
+  @include('utils.loading')
   @include('utils.modals.message')
   @include('utils.alerts')
   @include('utils.toasts')
@@ -180,6 +184,11 @@
     @if(in_array('multisteps-form', $plugins))
       <script src="{{ asset('js/multisteps-form.js') }}"></script>
     @endif
+    @if(in_array('cropper', $plugins))
+      @include('utils.modals.cropper')
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.5/croppie.min.js" integrity="sha512-Gs+PsXsGkmr+15rqObPJbenQ2wB3qYvTHuJO6YJzPe/dTLvhy0fmae2BcnaozxDo5iaF8emzmCZWbQ1XXiX2Ig==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    @endif
+    @if(in_array('confirm', $plugins)) @include('utils.modals.confirm') @endif
   @endisset
 
   @yield('scripts')

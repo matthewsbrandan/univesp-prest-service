@@ -173,10 +173,7 @@ class Controller extends BaseController
   public static function handleDeleteImage($path, $filename, $user_id = null){
     if(auth()->user()){
       if(!$user_id) $user_id = auth()->user()->id;
-      elseif(
-        auth()->user()->id != $user_id &&
-        !auth()->user()->hasPermissionTo('admin')
-      ) return (object)[
+      elseif(auth()->user()->id != $user_id) return (object)[
         'result' => false,
         'response' => 'Você não tem permissão para executar essa ação'
       ];
