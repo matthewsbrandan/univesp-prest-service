@@ -15,13 +15,19 @@
     #modalFullScreen .gallery-image-item{
       max-height: initial !important;
     }
+    .nav-pills .moving-tab{ display: none; }
   </style>
 @endsection
 @section('content')
-  @include('layout.aside')
+  @include('layout.aside',['aside_options' => (object)[
+    'active' => 'profile'
+  ]])
   <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
     @include('layout.navbar', ['navbar_options' => (object)[
       'items' => [(object)[
+        'name' => 'Perfil',
+        'href' => route('profile.index')
+      ],(object)[
         'href' => route('gallery.index'),
         'name' => 'Galeria'
       ],(object)[
@@ -29,14 +35,53 @@
         'name' => $gallery->title
       ]]
     ]])
-    <div
-      class="container-fluid py-4 d-flex flex-column justify-content-between"
-      style="min-height: calc(100vh - 6rem);"
-    >
+    <div class="container-fluid px-2 px-md-4 mb-4" style="position:relative;">
+      <div class="page-header min-height-300 border-radius-xl mt-2" style="background-image: url('https://images.unsplash.com/photo-1531512073830-ba890ca4eba2?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');">
+        <span class="mask  bg-gradient-primary  opacity-6"></span>
+      </div>
+
+      <div class="card card-body mx-3 mx-md-4 mt-n6">
+        <div class="row gx-4">
+          <div class="col-auto">
+            <div class="avatar avatar-xl position-relative">
+              <img src="{{ auth()->user()->getProfile() }}" alt="profile_image" class="w-100 border-radius-lg shadow-sm">
+            </div>
+          </div>
+          <div class="col-auto my-auto">
+            <div class="h-100">
+              <h5 class="mb-1">
+                {{ auth()->user()->name }}
+              </h5>
+              <p class="mb-0 font-weight-normal text-sm">
+                {{ auth()->user()->username }}
+              </p>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6 my-sm-auto ms-sm-auto me-sm-0 mx-auto mt-3">
+            <div class="nav-wrapper position-relative end-0">
+              <ul class="nav nav-pills nav-fill p-1">
+                <li class="nav-item">
+                  <a class="nav-link mb-0 px-0 py-1" href="{{ route('profile.index') }}">
+                    <i class="material-icons text-lg position-relative">person</i>
+                    <span class="ms-1">Perfil</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link mb-0 px-0 py-1 bg-white shadow" href="{{ route('gallery.index') }}">
+                    <i class="material-icons text-lg position-relative">image</i>
+                    <span class="ms-1">Galeria</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div>
         <div class="row">
           <div class="col-md-8 me-auto text-left">
-            <h5 class="mb-4">
+            <h5 class="my-4">
               Galeria de {{ $gallery->title }}<br/>
               @if($gallery->count > 0)
                 <span class="text-muted text-xs">
@@ -109,7 +154,9 @@
           <input type="file"    name="upload_image" id="upload_image" class="d-none"/>
         </form>
       </div>
-      @include('layout.footer')
+      @include('layout.footer',['footer_options' => (object)[
+        'class_name' => 'footer bottom-2 py-2 w-100'
+      ]])
     </div>
   </main>
 @endsection

@@ -10,6 +10,20 @@ class AreaController extends Controller
   public function index(){
 
   }
+  public function show($slug){
+    if(!$area = Area::whereSlug($slug)->first()) return $this->sweet(
+      redirect()->back(),
+      'Condomínio não encontrado',
+      'error',
+      'Detalhes do Condomínio'
+    );
+
+    $area->loadData(['services']);
+
+    return view('area.show',[
+      'area' => $area
+    ]);
+  }
   public function create(){
     return view('area.create.index');
   }
@@ -71,7 +85,9 @@ class AreaController extends Controller
     );
     #endregion IMAGE
 
-    Area::create($data);
+    $area = Area::create($data);
+
+    UserAreaController::storeUserArea($area->id);
 
     return $this->toast(
       redirect()->route('home'),

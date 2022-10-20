@@ -44,4 +44,10 @@ class Service extends Model
   public function getImage(){
     return asset($this->image);
   }
+  public function loadData(){
+    $service = $this;
+    $service->image_formatted = $service->getImage();
+
+    return $service;
+  }
 }

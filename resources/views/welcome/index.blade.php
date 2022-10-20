@@ -404,33 +404,10 @@
       <div class="row">
         <div class="col-lg-7 d-flex justify-content-center flex-column">
           <div class="card card-body d-flex justify-content-center shadow-lg p-sm-5 blur align-items-center">
-            <h3 class="text-center">Entrar em Contato</h3>
+            <h3 class="text-center">Quer cadastrar seu condomínio?</h3>
+            <p>Se você deseja que seu condomínio esteja em nossa plataforma, entre em contato conosco para validarmos os dados e te ajudar a conhecer esse lado da plataforma.</p>
             <form id="contact-form" method="post" autocomplete="off">
               <div class="card-body">
-                <div class="row">
-                  <div class="col-md-6">
-                    <label>Primeiro Nome</label>
-                    <div class="input-group mb-4">
-                      <input
-                        class="form-control"
-                        placeholder="..." type="text"
-                        aria-label="First Name..."
-                        onfocus="focused(this)" onfocusout="defocused(this)"
-                      />
-                    </div>
-                  </div>
-                  <div class="col-md-6 ps-2">
-                    <label>Sobrenome</label>
-                    <div class="input-group">
-                      <input
-                        class="form-control"
-                        placeholder="..." type="text"
-                        aria-label="Last Name..."
-                        onfocus="focused(this)" onfocusout="defocused(this)"
-                      />
-                    </div>
-                  </div>
-                </div>
                 <div class="mb-4">
                   <label>Email</label>
                   <div class="input-group">

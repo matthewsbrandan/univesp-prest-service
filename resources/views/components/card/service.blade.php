@@ -3,21 +3,21 @@
     <div class="position-relative">
       <a class="d-block blur-shadow-image">
         <img
-          src="{{ $area->image_formatted }}"
-          alt="{{ $area->slug }}" class="img-fluid shadow border-radius-lg">
+          src="{{ $service->image_formatted }}"
+          alt="{{ $service->slug }}" class="img-fluid shadow border-radius-lg">
       </a>
       <div class="colored-shadow"
-        style="background-image: url({{ $area->image_formatted }});">
+        style="background-image: url({{ $service->image_formatted }});">
       </div>
     </div>
     <div class="card-body px-1 pt-3">
       <p class="text-gradient text-dark mb-2 text-sm">N serviços • N categorias</p>
-      <a href="{{ route('area.show',['slug' => $area->slug]) }}">
-        <h5>{{ $area->name }}</h5>
+      <a href="{{ route('service.show',['slug' => $service->slug]) }}">
+        <h5>{{ $service->name }}</h5>
       </a>
-      <p>{{ $area->description }}</p>
+      <p>{{ $service->description }}</p>
       <a
-        href="{{ route('area.show',['slug' => $area->slug]) }}"
+        href="{{ route('service.show',['slug' => $service->slug]) }}"
         class="btn btn-outline-primary btn-sm"
       >Saber Mais</a>
     </div>

@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AreaController;
 use App\Http\Controllers\GalleryController;
+use App\Http\Controllers\UserAreaController;
 use App\Http\Controllers\Auth\LoginController;
 
 /*
@@ -32,11 +33,6 @@ Route::middleware(['auth'])->group(function(){
     Route::get('perfil/{username?}', [UserController::class, 'profile'])->name('index');
   });
 
-  Route::name('area.')->group(function(){
-    Route::get('condominio/criar', [AreaController::class, 'create'])->name('create');
-    Route::post('condominio/salvar', [AreaController::class, 'store'])->name('store');
-  });
-
   Route::name('gallery.')->group(function(){
     Route::get('/galeria', [GalleryController::class,'index'])->name('index');
     Route::get('/galeria/carregar/{gallery_name}', [GalleryController::class,'get'])->name('get');
@@ -45,6 +41,22 @@ Route::middleware(['auth'])->group(function(){
     Route::post('/galeria/excluir', [GalleryController::class,'delete'])->name('delete');
   });
 
+  Route::name('area.')->group(function(){
+    Route::get('condominio/detalhes/{slug}', [AreaController::class, 'show'])->name('show');
+    Route::get('condominio/criar', [AreaController::class, 'create'])->name('create');
+    Route::post('condominio/salvar', [AreaController::class, 'store'])->name('store');
+  });
+
+  Route::name('user_area.')->group(function(){
+    Route::get('condominio/vincular/{id}', [UserAreaController::class, 'store'])->name('store');
+  });
+
+  Route::name('service.')->group(function(){
+    Route::get('servico/detalhes/{slug}', [ServiceController::class, 'show'])->name('show');
+    Route::get('servico/criar', [ServiceController::class, 'create'])->name('create');
+    Route::post('servico/salvar', [ServiceController::class, 'store'])->name('store');
+  });
+  
   Route::get('sair', [LoginController::class, 'logout'])->name('logout');
 });
 

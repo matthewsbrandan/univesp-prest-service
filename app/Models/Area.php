@@ -67,12 +67,23 @@ class Area extends Model
     $slugs = $this->getSlugCategoriesIncluded();
     return ServiceCategory::whereIn('slug',$slugs)->get();
   }
-  public function loadData(){
+  public function loadData($with = []){
     $area = $this;
     $area->image_formatted = $area->getImage();
+    $area->i_am_vinculed = $area->iAmVinculed();
+
+    if(in_array('services', $with)){
+      $area->services = $area->services ? $area->services->map(function($service){
+        return $service->loadData();
+      }) : collect([]);
+    }
+
     return $area;
   }
   #endregion FORMATTED
+  public function iAmVinculed(){
+    return !!UserArea::whereUserId(auth()->user()->id)->whereAreaId($this->id)->first();
+  }
   public static function generateSlug($name){
     $slug = Controller::generateSlug($name);
     $append = '';

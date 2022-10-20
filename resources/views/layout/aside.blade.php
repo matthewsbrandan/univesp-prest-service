@@ -96,12 +96,14 @@
       @endauth
     </ul>
   </div>
-  <div class="sidenav-footer position-absolute w-100 bottom-0">
-    <div class="mx-3">
-      <a
-        class="btn bg-gradient-primary mt-4 w-100"
-        href="{{ route('area.create') }}"
-      >Cadastrar Condomínio</a>
+  @if(auth()->user()->active_area)
+    <div class="sidenav-footer position-absolute w-100 bottom-0">
+      <div class="mx-3">
+        <a
+          href="{{ route('area.show',['slug' => auth()->user()->active_area->slug]) }}"
+          class="btn bg-gradient-primary mt-4 w-100 text-ellipsis"
+        >{{ auth()->user()->active_area->name }}</a>
+      </div>
     </div>
-  </div>
+  @endif
 </aside>

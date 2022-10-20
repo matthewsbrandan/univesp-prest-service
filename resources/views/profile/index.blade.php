@@ -3,6 +3,9 @@
   $body_class = 'g-sidenav-show bg-gray-200';
 @endphp
 @extends('layout.app')
+@section('head')
+  <style>.nav-pills .moving-tab{ display: none; }</style>
+@endsection
 @section('content')
   @include('layout.aside',['aside_options' => (object)[
     'active' => 'profile'
@@ -37,23 +40,17 @@
           </div>
           <div class="col-lg-4 col-md-6 my-sm-auto ms-sm-auto me-sm-0 mx-auto mt-3">
             <div class="nav-wrapper position-relative end-0">
-              <ul class="nav nav-pills nav-fill p-1" role="tablist">
+              <ul class="nav nav-pills nav-fill p-1">
                 <li class="nav-item">
-                  <a class="nav-link mb-0 px-0 py-1 active " data-bs-toggle="tab" href="javascript:;" role="tab" aria-selected="true">
-                    <i class="material-icons text-lg position-relative">home</i>
-                    <span class="ms-1">Home</span>
+                  <a class="nav-link mb-0 px-0 py-1  bg-white shadow" href="{{ route('profile.index') }}">
+                    <i class="material-icons text-lg position-relative">person</i>
+                    <span class="ms-1">Perfil</span>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link mb-0 px-0 py-1 " data-bs-toggle="tab" href="javascript:;" role="tab" aria-selected="false">
-                    <i class="material-icons text-lg position-relative">email</i>
-                    <span class="ms-1">Msg</span>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link mb-0 px-0 py-1 " data-bs-toggle="tab" href="javascript:;" role="tab" aria-selected="false">
-                    <i class="material-icons text-lg position-relative">settings</i>
-                    <span class="ms-1">Config.</span>
+                  <a class="nav-link mb-0 px-0 py-1 " href="{{ route('gallery.index') }}">
+                    <i class="material-icons text-lg position-relative">image</i>
+                    <span class="ms-1">Galeria</span>
                   </a>
                 </li>
               </ul>
@@ -160,11 +157,13 @@
                 <div class="card-header pb-0 p-3">
                   <h6 class="mb-0">Conversas</h6>
                 </div>
-                <div class="card-body p-3">
+                <div class="card-body p-3 pt-2">
                   <ul class="list-group">
                     @if(!isset($works) || $works->count() == 0)
                       <li class="list-group-item border-0 d-flex align-items-center px-0 mb-2">
-                        <p class="text-center">Você ainda não iniciou nenhuma conversa</p>
+                        <p class="bg-gray-200 py-4 rounded-3 text-center">
+                          Você ainda não iniciou nenhuma conversa
+                        </p>
                       </li>
                     @else
                       @foreach($works as $work)
@@ -203,9 +202,9 @@
               <p class="text-sm">Últimos serviços solicitados</p>
             </div>
             @if($applicant_works->count() == 0)
-              <p
-                class="bg-gray-200 py-4 rounded-3 text-center mx-3"
-              >Você ainda não solicitou nenhum serviço</p>
+              <p class="bg-gray-200 py-4 rounded-3 text-center mx-3">
+                Você ainda não solicitou nenhum serviço
+              </p>
             @else              
               <div class="row">
                 @foreach($applicant_works as $work)                

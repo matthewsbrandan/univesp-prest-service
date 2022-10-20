@@ -1,1 +1,7 @@
 button,a[href],[onclick]{ cursor: pointer; }
+
+.text-ellipsis{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

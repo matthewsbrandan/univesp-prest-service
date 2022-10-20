@@ -27,6 +27,7 @@ class User extends Authenticatable
     'provider_rating',
     'applicant_rating',
     'profile',
+    'active_area_id'
   ];
   protected $hidden = [
     'password', 'remember_token',
@@ -50,6 +51,9 @@ class User extends Authenticatable
   }
   public function request_categories(){
     return $this->hasMany(RequestCategory::class, 'user_id');
+  }
+  public function active_area(){
+    return $this->belongsTo(Area::class, 'active_area_id');
   }
   #endregion RELATIONSHIP
   public function getProfile(){
