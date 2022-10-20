@@ -4,12 +4,21 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Area;
+
 class HomeController extends Controller
 {
   public function index(){
-    return view('home.index');
+    $areas = AreaController::getAreas();
+    return view('home.index',[
+      'areas' => $areas
+    ]);
   }
   public function welcome(){
-    return view('welcome.index');
+    $areas = AreaController::getAreas();
+
+    return view('welcome.index',[
+      'areas' => $areas
+    ]);
   }
 }

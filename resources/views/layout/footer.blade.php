@@ -6,7 +6,7 @@
   <footer class="{{ 
     isset($footer_options) && isset($footer_options->class_name) ?
       $footer_options->class_name : 'footer position-absolute bottom-2 py-2 w-100'
-  }}">
+  }}" style="left: 0; right: 0;">
     <div class="container">
       <div class="row align-items-center justify-content-lg-between">
         <div class="col-12 col-md-6 my-auto">

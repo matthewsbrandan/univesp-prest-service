@@ -155,37 +155,44 @@
         </span>
       </button>
       <div class="collapse navbar-collapse" id="navigation">
-        <ul class="navbar-nav mx-auto">
-          <li class="nav-item">
-            <a class="nav-link d-flex align-items-center me-2 active" aria-current="page" href="{{ route('home') }}">
-              <i class="fa fa-chart-pie opacity-6 text-dark me-1"></i>
-              Dashboard
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link me-2" href="{{ route('profile.index') }}">
-              <i class="fa fa-user opacity-6 text-dark me-1"></i>
-              Perfil
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link me-2" href="{{ route('register') }}">
-              <i class="fas fa-user-circle opacity-6 text-dark me-1"></i>
-              Cadastrar-se
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link me-2" href="{{ route('login') }}">
-              <i class="fas fa-key opacity-6 text-dark me-1"></i>
-              Login
-            </a>
-          </li>
+        <ul class="navbar-nav ms-auto">
+          @auth
+            <li class="nav-item">
+              <a class="nav-link d-flex align-items-center me-2 active" aria-current="page" href="{{ route('home') }}">
+                <i class="fa fa-chart-pie opacity-6 text-dark me-1"></i>
+                Home
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link me-2" href="{{ route('profile.index') }}">
+                <i class="fa fa-user opacity-6 text-dark me-1"></i>
+                Perfil
+              </a>
+            </li>
+          @else
+            <li class="nav-item">
+              <a class="nav-link me-2" href="{{ route('register') }}">
+                <i class="fas fa-user-circle opacity-6 text-dark me-1"></i>
+                Cadastrar-se
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link me-2" href="{{ route('login') }}">
+                <i class="fas fa-key opacity-6 text-dark me-1"></i>
+                Login
+              </a>
+            </li>
+          @endauth
         </ul>
-        <ul class="navbar-nav d-lg-block d-none">
-          <li class="nav-item">
-            <a href="javascript:;" class="btn btn-sm mb-0 me-1 bg-gradient-dark">Entrar em Contato</a>
-          </li>
-        </ul>
+        <?php
+          /*
+            <ul class="navbar-nav d-lg-block d-none">
+              <li class="nav-item">
+                <a href="javascript:;" class="btn btn-sm mb-0 me-1 bg-gradient-dark">Entrar em Contato</a>
+              </li>
+            </ul>
+          */
+        ?>
       </div>
     </div>
   </nav>

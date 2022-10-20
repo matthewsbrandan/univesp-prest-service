@@ -4,6 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
+
+use App\Http\Controllers\Controller;
 
 class Area extends Model
 {
@@ -12,9 +15,11 @@ class Area extends Model
   protected $fillable = [
     'slug',
     'name',
+    'image',
     'description',
     'address',
     'code',
+
     'num_services',
     'num_followers',
     'categories_included',
@@ -46,6 +51,9 @@ class Area extends Model
     if(!$this->categories_included) return [];
     return explode(',',$this->categories_included);
   }
+  public function getImage(){
+    return asset($this->image);
+  }
   #region FORMATTED
   public function getAddressFormatted(){
     $address = $this->getAddress(true);
@@ -59,5 +67,22 @@ class Area extends Model
     $slugs = $this->getSlugCategoriesIncluded();
     return ServiceCategory::whereIn('slug',$slugs)->get();
   }
+  public function loadData(){
+    $area = $this;
+    $area->image_formatted = $area->getImage();
+    return $area;
+  }
   #endregion FORMATTED
+  public static function generateSlug($name){
+    $slug = Controller::generateSlug($name);
+    $append = '';
+    $count = 0;
+    while(Area::whereSlug($slug.$append)->first()){
+      $append = "-".Str::random(
+        $count <= 2 ? 2 : ( $count <= 4 ? 4 : 6 )
+      );
+      $count++;
+    }
+    return $slug.$append;
+  }
 }

@@ -1,5 +1,5 @@
-<div class="multisteps-form__panel pt-3 border-radius-xl bg-white js-active" data-animation="FadeIn">
-  <h5 class="font-weight-bolder">Informações do Condomínio/Região</h5>
+<div class="multisteps-form__panel border-radius-xl bg-white js-active" data-animation="FadeIn">
+  <h5 class="font-weight-bolder pt-1">Informações do Condomínio/Região</h5>
   <div class="multisteps-form__content">
     {{ csrf_field() }}
     <div class="row mt-3">

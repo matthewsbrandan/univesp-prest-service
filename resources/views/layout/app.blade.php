@@ -34,6 +34,7 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
   <!-- CSS Files -->
   <link id="pagestyle" href="{{ asset('assets/css/material-dashboard.css?v=3.0.4') }}" rel="stylesheet" />
+  <link href="{{ asset('css/global.css') }}" rel="stylesheet"/>
 
   @isset($plugins)
     @if(in_array('quill', $plugins))

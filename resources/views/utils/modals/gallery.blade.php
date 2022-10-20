@@ -59,7 +59,8 @@
         </div>
         <div style="
           height: 50vh;
-          overflow: auto;
+          overflow-y: auto;
+          overflow-x: hidden;
         ">
           @foreach($availableGalleries as $availableGallery)
             @if(isset($gallery_active) && $gallery_active == $availableGallery->path)

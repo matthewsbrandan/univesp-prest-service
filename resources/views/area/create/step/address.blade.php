@@ -1,5 +1,5 @@
-<div class="multisteps-form__panel pt-3 border-radius-xl bg-white" data-animation="FadeIn">
-  <h5 class="font-weight-bolder">Endereço</h5>
+<div class="multisteps-form__panel border-radius-xl bg-white" data-animation="FadeIn">
+  <h5 class="font-weight-bolder pt-1">Endereço</h5>
   <div class="multisteps-form__content">
     <!-- ADDRESS: CODE | STREAT | NUMBER  -->
     <div class="row mx-0 mt-3">
@@ -16,6 +16,7 @@
             maxlength="9"
             name="code" id="area-code"
             value="{{ $area->code ?? '' }}"
+            required
           />
         </div>
       </div>
@@ -32,6 +33,7 @@
             maxlength="191"
             name="street" id="area-street"
             value="{{ $area->street ?? '' }}"
+            required
           />
         </div>
       </div>
@@ -43,9 +45,8 @@
             class="multisteps-form__input form-control"
             onfocus="focused(this)"
             onfocusout="defocused(this)"
-            data-step="#step-2"
-            data-error-message="Preencha o Número do Condomínio"
             maxlength="10"
+            data-step="#step-2"
             name="number" id="area-number"
             value="{{ $area->number ?? '' }}"
           />
@@ -67,6 +68,7 @@
             maxlength="191"
             name="district" id="area-district"
             value="{{ $area->district ?? '' }}"
+            required
           />
         </div>
       </div>
@@ -83,6 +85,7 @@
             maxlength="191"
             name="city" id="area-city"
             value="{{ $area->city ?? '' }}"
+            required
           />
         </div>
       </div>
@@ -99,6 +102,7 @@
             maxlength="2"
             name="state" id="area-state"
             value="{{ $area->state ?? '' }}"
+            required
           />
         </div>
       </div>
@@ -113,7 +117,7 @@
             onfocus="focused(this)"
             onfocusout="defocused(this)"
             data-step="#step-2"
-            name="complement" id="area-complement"            
+            name="complement" id="area-complement"
           >{{ $area->complement ?? '' }}</textarea>
           
         </div>

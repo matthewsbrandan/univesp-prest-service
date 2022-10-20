@@ -1,7 +1,7 @@
 @php
   $head_title = 'Cadastrar Condomínio';
   $body_class = 'g-sidenav-show bg-gray-200';
-  $plugins = ['choices','multisteps-form','jquery-mask'];
+  $plugins = ['multisteps-form','jquery-mask','cropper'];
 @endphp
 @extends('layout.app')
 @section('content')
@@ -63,17 +63,20 @@
     </div>
   </main>
   @include('layout.fixed-plugin')
+  @include('utils.modals.gallery',[
+    'gallery_active' => 'areas',
+    'gallery_add_fn' => 'handleAddNewImage()',
+    'gallery_fn' => 'selectItemGallery($(this))'
+  ])
 @endsection
 @section('scripts')
-  <script>
-    var tags = document.getElementById('choices-tags');
-    tagsChoices = new Choices(tags, {
-      removeItemButton: true,
-      ...choicesTextTranslated
-    });
-
-    tagsChoices.setChoices([],'value','label',false);
-  </script>
+  <!-- BEGIN:: HANDLE IMAGE -->
+  @include('utils.scripts.cropper',['cropper_options' => (object)[
+    'viewport' => (object)['w' => 380, 'h' => 253],
+    'boundary' => (object)['w' => 440, 'h' => 294],
+    'size' => (object)['w'=> 800, 'h'=> 533]
+  ]])
+  <!-- END:: HANDLE IMAGE -->
   <!-- BEGIN:: HANDLE ZIP CODE -->
   <script>
     var lastZipCodeShowError = null;

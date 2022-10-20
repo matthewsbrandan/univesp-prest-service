@@ -14,7 +14,7 @@ class AddColumnImageToAreas extends Migration
     public function up()
     {
         Schema::table('areas', function (Blueprint $table) {
-            //
+            $table->string('image')->nullable();
         });
     }
 
@@ -26,7 +26,7 @@ class AddColumnImageToAreas extends Migration
     public function down()
     {
         Schema::table('areas', function (Blueprint $table) {
-            //
+            $table->dropColumn('image');
         });
     }
 }

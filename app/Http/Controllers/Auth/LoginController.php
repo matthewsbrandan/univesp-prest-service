@@ -21,20 +21,18 @@ class LoginController extends Controller
 
     if($request->google_id) return $this->handleLoginWithGoogle($request);
 
-    if(!User::whereEmail($request->email)->first()) return $this->sweet(
+    if(!User::whereEmail($request->email)->first()) return $this->alert(
       redirect()->back(),
       'Email não encontrado',
-      'danger',
-      'Login'
+      'danger'
     );
 
     $credentials = $request->only('email', 'password');
 
-    if (!Auth::attempt($credentials, true)) return $this->sweet(
+    if (!Auth::attempt($credentials, true)) return $this->alert(
       redirect()->back(),
       'Senha inválida',
-      'danger',
-      'Login'
+      'danger'
     );
 
     // auth()->user()->closeTunel();
