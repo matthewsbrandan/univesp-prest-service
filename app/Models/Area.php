@@ -82,6 +82,7 @@ class Area extends Model
   }
   #endregion FORMATTED
   public function iAmVinculed(){
+    if(!auth()->user()) return false;
     return !!UserArea::whereUserId(auth()->user()->id)->whereAreaId($this->id)->first();
   }
   public static function generateSlug($name){
