@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AreaController;
+use App\Http\Controllers\WorkController;
+use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\UserAreaController;
 use App\Http\Controllers\Auth\LoginController;
@@ -52,11 +54,16 @@ Route::middleware(['auth'])->group(function(){
   });
 
   Route::name('service.')->group(function(){
+    Route::get('servicos', [ServiceController::class, 'index'])->name('index');
     Route::get('servico/detalhes/{slug}', [ServiceController::class, 'show'])->name('show');
     Route::get('servico/criar', [ServiceController::class, 'create'])->name('create');
     Route::post('servico/salvar', [ServiceController::class, 'store'])->name('store');
   });
   
+  Route::name('work.')->group(function(){
+    Route::get('historico', [WorkController::class, 'index'])->name('index');
+  });
+
   Route::get('sair', [LoginController::class, 'logout'])->name('logout');
 });
 

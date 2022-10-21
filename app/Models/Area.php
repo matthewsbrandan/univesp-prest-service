@@ -81,6 +81,9 @@ class Area extends Model
     return $area;
   }
   #endregion FORMATTED
+  public function countCategoriesIncluded(){
+    return count($this->getSlugCategoriesIncluded());
+  }
   public function iAmVinculed(){
     if(!auth()->user()) return false;
     return !!UserArea::whereUserId(auth()->user()->id)->whereAreaId($this->id)->first();

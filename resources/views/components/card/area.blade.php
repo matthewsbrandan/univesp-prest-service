@@ -1,3 +1,8 @@
+@once
+  @php
+    function handlePlural($value, $sigular, $plural){ return $value == 1 ? $sigular : $plural; }
+  @endphp
+@endonce
 <div class="col-lg-4 col-md-6">
   <div class="card card-blog card-plain">
     <div class="position-relative">
@@ -11,7 +16,10 @@
       </div>
     </div>
     <div class="card-body px-1 pt-3">
-      <p class="text-gradient text-dark mb-2 text-sm">N serviços • N categorias</p>
+      <p class="text-gradient text-dark mb-2 text-sm">
+        {{ $area->num_services . handlePlural($area->num_services, ' serviço', ' serviços') }} • 
+        {{ $area->countCategoriesIncluded() . handlePlural($area->countCategoriesIncluded(), ' categoria', ' categorias') }}
+      </p>
       <a href="{{ route('area.show',['slug' => $area->slug]) }}">
         <h5>{{ $area->name }}</h5>
       </a>

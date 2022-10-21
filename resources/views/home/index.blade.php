@@ -14,39 +14,22 @@
         'href' => '#'
       ]]
     ]])
-    <div class="container-fluid py-4" style="position: relative;">
-      @if(auth()->user()->active_area)
-        @include('components.search.service',['search_service_options' => (object)[
-          'class_name' => 'row bg-white shadow-lg border-radius-md pb-4 p-3 mx-sm-0 mx-1 position-relative'
-        ]])
-      @else
-        @include('components.search.area',['search_area_options' => (object)[
-          'class_name' => 'row bg-white shadow-lg border-radius-md pb-4 p-3 mx-sm-0 mx-1 position-relative'
-        ]])
+    <div class="container-fluid pb-4" style="position: relative;">
+      @if(!auth()->user()->active_area)
+        <div class="pt-4">
+          @include('components.search.area',['search_area_options' => (object)[
+            'class_name' => 'row bg-white shadow-lg border-radius-md pb-4 p-3 mx-sm-0 mx-1 position-relative'
+          ]])
+        </div>
+        <div class="card card-body my-4">
+          <div class="row">
+            @foreach($areas as $area)
+              @include('components.card.area')
+            @endforeach
+          </div>
+        </div>
       @endif
       <div class="mb-6">
-        <div class="card card-body my-4">
-          @if(auth()->user()->active_area)
-            @php $area = auth()->user()->active_area->loadData(['services']); @endphp
-            @if($area->services->count() == 0)
-              <p class="bg-gray-200 py-4 rounded-3 text-center mb-0">
-                Ainda não há nenhum serviço sendo oferecido nesse condomínio.
-              </p>
-            @else
-              <div class="row">
-                @foreach($area->services as $service)
-                  @include('components.card.service')
-                @endforeach
-              </div>
-            @endif
-          @else
-            <div class="row">
-              @foreach($areas as $area)
-                @include('components.card.area')
-              @endforeach
-            </div>
-          @endif
-        </div>
         @if(auth()->user()->active_area)
           <!-- BEGIN:: SERVICES -->
           <div class="row">
