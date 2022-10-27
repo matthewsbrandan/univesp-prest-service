@@ -9,6 +9,7 @@ use App\Http\Controllers\WorkController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\UserAreaController;
+use App\Http\Controllers\ServiceCategoryController;
 use App\Http\Controllers\Auth\LoginController;
 
 /*
@@ -29,6 +30,17 @@ Route::get('cadastrar-se', [UserController::class, 'register'])->name('register'
 Route::post('cadastrar-se', [UserController::class, 'store'])->name('store');
 Route::get('login', [LoginController::class, 'login'])->name('login');
 Route::post('login', [LoginController::class, 'authenticate'])->name('authenticate');
+
+Route::name('service.')->group(function(){
+  Route::get('servicos', [ServiceController::class, 'index'])->name('index');
+  Route::get('servico/detalhes/{slug}', [ServiceController::class, 'show'])->name('show');
+  // OUTHER PRIVATE ROUTES
+});
+
+Route::name('service_category.')->group(function(){
+  Route::get('categorias', [ServiceCategoryController::class, 'index'])->name('index');
+  Route::get('categoria/{slug}', [ServiceCategoryController::class, 'show'])->name('show');
+});
 
 Route::middleware(['auth'])->group(function(){
   Route::name('profile.')->group(function(){
@@ -54,8 +66,7 @@ Route::middleware(['auth'])->group(function(){
   });
 
   Route::name('service.')->group(function(){
-    Route::get('servicos', [ServiceController::class, 'index'])->name('index');
-    Route::get('servico/detalhes/{slug}', [ServiceController::class, 'show'])->name('show');
+    // OUTHER PUBLIC ROUTES
     Route::get('servico/criar', [ServiceController::class, 'create'])->name('create');
     Route::post('servico/salvar', [ServiceController::class, 'store'])->name('store');
   });

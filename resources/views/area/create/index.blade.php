@@ -9,7 +9,7 @@
   <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
     @include('layout.navbar', ['navbar_options' => (object)[
       'items' => [(object)[
-        'name' => 'Home',
+        'name' => 'Adicionar Condomínio',
         'href' => '#'
       ]]
     ]])

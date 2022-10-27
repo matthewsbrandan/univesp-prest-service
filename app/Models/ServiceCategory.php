@@ -25,4 +25,11 @@ class ServiceCategory extends Model
   public function getImage(){
     return asset($this->image);
   }
+  public function loadData(){
+    $category = $this;
+
+    $category->image_formatted = $category->getImage();
+    
+    return $category;
+  }
 }

@@ -4,6 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
+
+use App\Http\Controllers\Controller;
 
 class Service extends Model
 {
@@ -50,4 +53,18 @@ class Service extends Model
 
     return $service;
   }
+  #region STATIC FUNCTIONS
+  public static function generateSlug($name){
+    $slug = Controller::generateSlug($name);
+    $append = '';
+    $count = 0;
+    while(Service::whereSlug($slug.$append)->first()){
+      $append = "-".Str::random(
+        $count <= 2 ? 2 : ( $count <= 4 ? 4 : 6 )
+      );
+      $count++;
+    }
+    return $slug.$append;
+  }
+  #endregion STATIC FUNCTIONS
 }

@@ -670,7 +670,10 @@
           <div class="pt-1 pb-5 position-sticky top-1 mt-lg-8 mt-5">
             <h4>Deseja oferecer algum serviço?</h4>
             <p>Se você exerce alguma atividade e deseja divulgá-la na plataforma clique no botão abaixo para começar a divulgação.</p>
-            <button type="button" class="btn bg-gradient-primary w-100">Adicionar Serviço</button>
+            <a
+              href="{{ route('service.create') }}"
+              class="btn bg-gradient-primary w-100"
+            >Adicionar Serviço</a>
             <h4 class="mt-5">Últimos serviços solicitados</h4>
             <a href="javascript::">
               <div class="card justify-content-center mb-3">
