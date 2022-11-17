@@ -20,6 +20,7 @@ class User extends Authenticatable
     'password',
     'username',
     'email_verified_at',
+    'type',
     'phone',
     'whatsapp',
     'social_network',
@@ -56,6 +57,7 @@ class User extends Authenticatable
     return $this->belongsTo(Area::class, 'active_area_id');
   }
   #endregion RELATIONSHIP
+  #region GETTERS
   public function getProfile(){
     return $this->profile ? asset($this->profile) : self::getProfileDefault();
   }
@@ -73,6 +75,11 @@ class User extends Authenticatable
       ->orderByDesc('updated_at')
       ->take($take)
       ->get();
+  }
+  #endregion GETTERS
+  public function hasPermissionTo($scope){
+    if($scope == 'admin') return $this->type == 'admin';
+    return true;
   }
   #region STATIC FUNCTIONS
   public static function generateUsername($name){

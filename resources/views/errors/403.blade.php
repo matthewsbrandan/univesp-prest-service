@@ -64,9 +64,8 @@
       <div class="container my-auto">
         <div class="row">
           <div class="col-lg-12 m-auto text-center">
-            <h1 class="display-1 text-bolder text-white">{{ $error_code ?? 'Erro 404' }}</h1>
-            <h2 class="text-white">{{ $title ?? 'Página não encontrada' }}</h2>
-            <p class="lead text-white">{{ $message ?? 'Verifique se o endereço da página está correto'}}</p>
+            <h1 class="display-1 text-bolder text-white">Erro 403</h1>
+            <h2 class="text-white">Você não tem permissão para acessar essa página</h2>
             <a
               href="{{ route('home') }}"
               class="btn btn-outline-white mt-4"

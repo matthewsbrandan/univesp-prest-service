@@ -10,18 +10,11 @@ use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\UserAreaController;
 use App\Http\Controllers\ServiceCategoryController;
+
 use App\Http\Controllers\Auth\LoginController;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+use App\Http\Controllers\Admin\AdminUserController;
+use App\Http\Controllers\Admin\AdminServiceCategoryController;
 
 Route::get('/', [HomeController::class, 'welcome'])->name('/');
 Route::get('home', [HomeController::class, 'index'])->name('home');
@@ -40,6 +33,8 @@ Route::name('service.')->group(function(){
 Route::name('service_category.')->group(function(){
   Route::get('categorias', [ServiceCategoryController::class, 'index'])->name('index');
   Route::get('categoria/{slug}', [ServiceCategoryController::class, 'show'])->name('show');
+
+  // OUTHERS ADMIN ROUTES
 });
 
 Route::middleware(['auth'])->group(function(){
@@ -73,6 +68,16 @@ Route::middleware(['auth'])->group(function(){
   
   Route::name('work.')->group(function(){
     Route::get('historico', [WorkController::class, 'index'])->name('index');
+  });
+
+  Route::middleware(['admin'])->name('admin.')->group(function(){
+    Route::name('service_category.')->group(function(){
+      Route::get('gerenciar/categorias', [AdminServiceCategoryController::class, 'index'])->name('index');
+    });
+
+    Route::name('user.')->group(function(){
+      Route::get('gerenciar/usuários', [AdminUserController::class, 'index'])->name('index');
+    });
   });
 
   Route::get('sair', [LoginController::class, 'logout'])->name('logout');
