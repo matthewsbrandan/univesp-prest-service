@@ -76,6 +76,14 @@ class User extends Authenticatable
       ->take($take)
       ->get();
   }
+  public function getType(){
+    $types = [
+      'admin' => 'Administrador',
+      'user' => 'Usuário'
+    ];
+
+    return $types[$this->type] ?? null;
+  }
   #endregion GETTERS
   public function hasPermissionTo($scope){
     if($scope == 'admin') return $this->type == 'admin';

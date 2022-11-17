@@ -304,6 +304,11 @@ class GalleryController extends Controller
       ]
     ]);
     
+    if(auth()->user() && auth()->user()->hasPermissionTo('admin')) $galleries->push((object)[
+      'title' => 'Categorias',
+      'path' => 'service_categories'
+    ]);
+
     return $galleries;
   }
   public static function FileSizeConvert($bytes){

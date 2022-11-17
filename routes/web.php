@@ -73,6 +73,8 @@ Route::middleware(['auth'])->group(function(){
   Route::middleware(['admin'])->name('admin.')->group(function(){
     Route::name('service_category.')->group(function(){
       Route::get('gerenciar/categorias', [AdminServiceCategoryController::class, 'index'])->name('index');
+      Route::get('gerenciar/categorias/nova', [AdminServiceCategoryController::class, 'create'])->name('create');
+      Route::post('gerenciar/categorias/salvar', [AdminServiceCategoryController::class, 'store'])->name('store');
     });
 
     Route::name('user.')->group(function(){
@@ -83,16 +85,16 @@ Route::middleware(['auth'])->group(function(){
   Route::get('sair', [LoginController::class, 'logout'])->name('logout');
 });
 
-
-Route::get('pages/billing.html', function() { return view('billing'); });
-Route::get('pages/icons.html', function() { return view('icons'); });
-Route::get('pages/map.html', function() { return view('map'); });
-Route::get('pages/notifications.html', function() { return view('notifications'); });
-Route::get('pages/profile.html', function() { return view('profile'); });
-Route::get('pages/rtl.html', function() { return view('rtl'); });
-Route::get('pages/sign-in.html', function() { return view('sign-in'); });
-Route::get('pages/sign-up.html', function() { return view('sign-up'); });
-Route::get('pages/tables.html', function() { return view('tables'); });
-Route::get('pages/template.html', function() { return view('template'); });
-Route::get('pages/typography.html', function() { return view('typography'); });
-Route::get('pages/virtual-reality.html', function() { return view('virtual-reality'); });
+Route::view('pages/dashboard','dashboard');
+Route::view('pages/billing', 'billing');
+Route::view('pages/icons', 'icons');
+Route::view('pages/map', 'map');
+Route::view('pages/notifications', 'notifications');
+Route::view('pages/profile', 'profile');
+Route::view('pages/rtl', 'rtl');
+Route::view('pages/sign-in', 'sign-in');
+Route::view('pages/sign-up', 'sign-up');
+Route::view('pages/tables', 'tables');
+Route::view('pages/template', 'template');
+Route::view('pages/typography', 'typography');
+Route::view('pages/virtual-reality', 'virtual-reality');

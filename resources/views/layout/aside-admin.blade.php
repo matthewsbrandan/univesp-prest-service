@@ -3,7 +3,7 @@
 </li>
 <li class="nav-item">
   <a class="nav-link text-white {{
-    $active == 'admin.users' ? 'active bg-gradient-primary':''
+    $active == 'admin.user' ? 'active bg-gradient-primary':''
   }}" href="{{ route('admin.user.index') }}">
     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
       <i class="material-icons opacity-10">group</i>
@@ -13,8 +13,8 @@
 </li>
 <li class="nav-item">
   <a class="nav-link text-white {{
-    $active == 'admin.users' ? 'active bg-gradient-primary':''
-  }}" href="{{ route('profile.index') }}">
+    $active == 'admin.service_category' ? 'active bg-gradient-primary':''
+  }}" href="{{ route('admin.service_category.index') }}">
     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
       <i class="material-icons opacity-10">category</i>
     </div>
