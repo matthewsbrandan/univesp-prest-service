@@ -27,19 +27,10 @@
         </div>
         @foreach($categories as $category)
           <div class="col-lg-4 col-md-6 px-sm-1 mt-md-0 mt-4">
-            <div class="info-horizontal bg-light shadow border-radius-xl py-5 px-4">
-              <div class="icon" style="width: 4rem;">
-                <img class="w-100 border-radius-lg" src="{{ $category->getImage() }}" alt="{{ $category->name }}"/>
-              </div>
-              <div class="description ps-3">
-                <h5>{{ $category->name }}</h5>
-                <p>{{ $category->description }}</p>
-                <a href="javascript:;" class="icon-move-right font-weight-bold">
-                  Editar
-                  <i class="fas fa-arrow-right text-sm ms-1" aria-hidden="true"></i>
-                </a>
-              </div>
-            </div>
+            @include('components.card.category',[
+              'category' => $category,
+              'mode' => 'admin'
+            ])
           </div>
         @endforeach
       </div>

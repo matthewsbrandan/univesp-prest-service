@@ -31,10 +31,10 @@ class Area extends Model
   public function user(){
     return $this->belongsTo(User::class, 'user_id');
   }
-  public function service(){
+  public function services(){
     return $this->belongsToMany(Service::class, 'service_areas', 'service_id');
   }
-  public function servicePivot(){
+  public function servicesPivot(){
     return $this->hasMany(ServiceArea::class, 'area_id');
   }
   public function followers(){

@@ -10,7 +10,38 @@ use App\Models\ServiceCategory;
 class ServiceController extends Controller
 {
   public function index(){
-    return view('service.index');
+    if(auth()->user()->active_area){
+      $categories_id = array_column(auth()->user()->active_area->services()
+        ->groupBy('service_category_id')
+        ->select('id')
+        ->get()
+        ->toArray(),
+        'id'
+      );
+      $categories = $categories = ServiceCategory::whereIn('id',$categories_id)->where(
+        'count_services', '>', 0
+      )->take(3)->inRandomOrder()->get()->map(function($category){
+        $category->service = auth()->user()->active_area->services()
+          ->whereServiceCategoryId($category->id)
+          ->inRandomOrder()
+          ->first();
+        return $category;
+      })->filter(function($category){
+        return !!$category->service;
+      });
+    }
+    else $categories = ServiceCategory::where(
+      'count_services', '>', 0
+    )->take(3)->inRandomOrder()->get()->map(function($category){
+      $category->service = $category->services()->inRandomOrder()->first();
+      return $category;
+    })->filter(function($category){
+      return !!$category->service;
+    });
+
+    return view('service.index',[
+      'categories' => $categories
+    ]);
   }
   public function show($slug){
     dd($slug);

@@ -16,7 +16,8 @@ class ServiceCategory extends Model
     'slug',
     'keywords',
     'description',
-    'image'
+    'image',
+    'count_services'
   ];
 
   #region RELATIONSHIP
@@ -24,16 +25,14 @@ class ServiceCategory extends Model
     return $this->hasMany(Service::class, 'service_category_id');
   }
   #endregion RELATIONSHIP
-  public function getImage(){
-    return asset($this->image);
+  #region MUTATORS
+  public function getImageAttribute($value){
+    return asset($value);
   }
-  public function loadData(){
-    $category = $this;
-
-    $category->image_formatted = $category->getImage();
-    
-    return $category;
+  public function getKeywordsAttribute($value){
+    return explode(',', $value) ?? [];
   }
+  #endregion MUTATORS
   #region STATIC FUNCTIONS
   public static function generateSlug($name){
     $slug = Controller::generateSlug($name);
