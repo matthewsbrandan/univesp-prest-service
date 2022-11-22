@@ -44,8 +44,8 @@ class Service extends Model
     return $this->hasMany(ServiceArea::class, 'service_id');
   }
   #endregion RELATIONSHIP
-  public function getImage(){
-    return asset($this->image);
+  public function getImageAttribute($value){
+    return asset($value);
   }
   public function loadData(){
     $service = $this;

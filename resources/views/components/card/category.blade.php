@@ -1,8 +1,8 @@
 @php
   if(!isset($card_category_style)) $card_category_style = (object)[];
-  if(!$card_category_style->container_class) $card_category_style->container_class = null;
-  if(!$card_category_style->text_class) $card_category_style->text_class = null;
-  if(!$card_category_style->button_class) $card_category_style->button_class = null;
+  if(!isset($card_category_style->container_class)) $card_category_style->container_class = null;
+  if(!isset($card_category_style->text_class)) $card_category_style->text_class = null;
+  if(!isset($card_category_style->button_class)) $card_category_style->button_class = null;
 @endphp
 <div class="{{ $card_category_style->container_class ?? 'info-horizontal bg-light shadow border-radius-xl py-5 px-4' }}">
   <div class="icon" style="width: 4rem;">

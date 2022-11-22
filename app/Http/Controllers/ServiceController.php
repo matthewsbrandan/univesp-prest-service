@@ -4,12 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Models\Work;
 use App\Models\Service;
 use App\Models\ServiceCategory;
 
 class ServiceController extends Controller
 {
-  public function index(){
+  public function index($slug = null){
     if(auth()->user()->active_area){
       $categories_id = array_column(auth()->user()->active_area->services()
         ->groupBy('service_category_id')
@@ -18,7 +19,9 @@ class ServiceController extends Controller
         ->toArray(),
         'id'
       );
-      $categories = $categories = ServiceCategory::whereIn('id',$categories_id)->where(
+      $categories = $categories = ServiceCategory::when($slug, function($condition) use ($slug){
+        return $condition->where('slug',$slug);
+      })->whereIn('id',$categories_id)->where(
         'count_services', '>', 0
       )->take(3)->inRandomOrder()->get()->map(function($category){
         $category->service = auth()->user()->active_area->services()
@@ -30,7 +33,9 @@ class ServiceController extends Controller
         return !!$category->service;
       });
     }
-    else $categories = ServiceCategory::where(
+    else $categories = ServiceCategory::when($slug, function($condition) use ($slug){
+      return $condition->where('slug',$slug);
+    })->where(
       'count_services', '>', 0
     )->take(3)->inRandomOrder()->get()->map(function($category){
       $category->service = $category->services()->inRandomOrder()->first();
@@ -39,17 +44,67 @@ class ServiceController extends Controller
       return !!$category->service;
     });
 
+    $outherCategories = ServiceCategory::whereNotIn('id', array_column(
+      $categories->toArray()
+      ,'id'
+    ))->where('count_services','>',0)->take(5)->get();
+
+    $data = $this->more(new Request([
+      'json' => false
+    ]));
+
+    if(!$data->result) return $this->sweet(
+      redirect()->back(),
+      $data->response,
+      'error',
+      'Serviços'
+    );
+    $services = $data->response;
+
+    $highServices = Service::inRandomOrder()->take(3)->get();
+
+    $lastThreeServicesRequested = auth()->user()->applicant_works()
+      ->orderByDesc('created_at')
+      ->take(3)
+      ->get();
+
     return view('service.index',[
-      'categories' => $categories
+      'services' => collect([]),
+      'categories' => $categories,
+      'outherCategories' => $outherCategories,
+      'services' => $services,
+      'highServices' => $highServices,
+      'lastThreeServicesRequested' => $lastThreeServicesRequested
     ]);
   }
+  public function more(Request $request){
+    $exclude_ids = $request->exclude_ids ?? [];
+    $search = $request->search ?? null;
+    $json = $request->json ?? true;
+
+    if(auth()->user()->active_area) $queryService = auth()->user()->active_area->services()->whereNotIn('id',$exclude_ids);
+    else $queryService = Service::whereNotIn('id',$exclude_ids);    
+
+    $services = $queryService->when($search, function($condition) use ($search){
+      return $condition->where(function($query) use ($search){
+        return $query->where('name', 'like', "%$search%")
+          ->orWhere('slug', 'like', "%$search%")
+          ->orWhere('description', 'like', "%$search%");
+      });
+    })->inRandomOrder()->take(7)->get();
+
+    $data = [
+      'result' => true,
+      'response' => $services
+    ];
+
+    return $json ? response()->json($data) : (object) $data;
+  }
   public function show($slug){
-    dd($slug);
+    dd('slug');
   }
   public function create(){
-    $categories = ServiceCategory::get()->map(function($category){
-      return $category->loadData();
-    });
+    $categories = ServiceCategory::get();
 
     if($categories->count() == 0) return $this->sweet(
       redirect()->back(),

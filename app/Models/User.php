@@ -58,8 +58,8 @@ class User extends Authenticatable
   }
   #endregion RELATIONSHIP
   #region GETTERS
-  public function getProfile(){
-    return $this->profile ? asset($this->profile) : self::getProfileDefault();
+  public function getProfileAttribute($value){
+    return $value ? asset($value) : self::getProfileDefault();
   }
   public function getSocialNetwork($in_array_format = false){
     /* EXPECTED ['facebook' => '#', 'twitter' => '#', 'instagram' => '#' ] */ 

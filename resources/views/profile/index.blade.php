@@ -25,7 +25,7 @@
         <div class="row gx-4 mb-2">
           <div class="col-auto">
             <div class="avatar avatar-xl position-relative">
-              <img src="{{ $user->getProfile() }}" alt="profile_image" class="w-100 border-radius-lg shadow-sm">
+              <img src="{{ $user->profile }}" alt="profile_image" class="w-100 border-radius-lg shadow-sm">
             </div>
           </div>
           <div class="col-auto my-auto">
@@ -176,7 +176,7 @@
 
                           <div class="avatar me-3">
                             <img
-                              src="{{ $user_conversation->getProfile() }}"
+                              src="{{ $user_conversation->profile }}"
                               alt="foto de perfil" class="border-radius-lg shadow"
                             >
                           </div>
@@ -238,7 +238,7 @@
                             >
                               <img
                                 alt="{{ $work->provider->name }}"
-                                src="{{ $work->provider->getProfile() }}"
+                                src="{{ $work->provider->profile }}"
                               >
                             </a>
                           </div>

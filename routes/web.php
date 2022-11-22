@@ -25,7 +25,7 @@ Route::get('login', [LoginController::class, 'login'])->name('login');
 Route::post('login', [LoginController::class, 'authenticate'])->name('authenticate');
 
 Route::name('service.')->group(function(){
-  Route::get('servicos', [ServiceController::class, 'index'])->name('index');
+  Route::get('servicos/{slug?}', [ServiceController::class, 'index'])->name('index');
   Route::get('servico/detalhes/{slug}', [ServiceController::class, 'show'])->name('show');
   // OUTHER PRIVATE ROUTES
 });

@@ -187,348 +187,173 @@
       </header>
     @endif
   
-    <div class="container">
+    <div class="container" style="min-height: calc(100vh - 9rem);">
       <div class="row">
         <div class="col-lg-7">
-  
-          <section class="py-5">
-            <div class="card card-plain card-blog mt-5">
-              <div class="row">
-                <div class="col-lg-4 col-md-4">
-                  <div class="card-image position-relative border-radius-lg">
-                    <div class="blur-shadow-image">
-                      <img class="img border-radius-lg"
-                        src="https://raw.githubusercontent.com/creativetimofficial/public-assets/master/soft-ui-design-system/assets/img/color-architecture.jpg"
-                        alt="architecture">
+          @if($services->count() > 0)
+            <section class="{{ $categories->count() > 0 ? 'py-5' : 'pb-5' }} mb-5">
+              @foreach($services->take(3) as $service)
+                <div class="card card-plain card-blog mt-5">
+                  <div class="row">
+                    <div class="col-lg-4 col-md-4">
+                      <div class="card-image position-relative border-radius-lg">
+                        <div class="blur-shadow-image">
+                          <img
+                            class="img border-radius-lg"
+                            src="{{ $service->image }}"
+                            alt="architecture"
+                          >
+                        </div>
+                        <div class="colored-shadow"
+                          style="background-image: url('{{ $service->image }}');">
+                        </div>
+                      </div>
                     </div>
-                    <div class="colored-shadow"
-                      style="background-image: url(&quot;https://raw.githubusercontent.com/creativetimofficial/public-assets/master/soft-ui-design-system/assets/img/color-architecture.jpg&quot;);">
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-7 col-md-7 my-sm-auto mt-3 ms-sm-3">
-                  <h4>
-                    <a href="javascript:;" class="text-dark">Rover raised to $65 million</a>
-                  </h4>
-                  <p>
-                    Finding temporary housing for your dog should be as easy as renting an Airbnb. That’s the idea behind
-                    Rover, which raised $65 million to expand its pet sitting <a href="javascript:;"> Read More </a>
-                  </p>
-                  <div class="author">
-                    <img src="../../assets/img/team-4.jpg" alt="team-4" class="avatar avatar-sm shadow me-2">
-                    <p class="my-auto">Katie Roof</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="card card-plain card-blog mt-5">
-              <div class="row">
-                <div class="col-lg-4 col-md-4">
-                  <div class="card-image position-relative border-radius-lg">
-                    <div class="blur-shadow-image">
-                      <img class="img border-radius-lg"
-                        src="https://raw.githubusercontent.com/creativetimofficial/public-assets/master/soft-ui-design-system/assets/img/color-estate.jpg"
-                        alt="estate">
-                    </div>
-                    <div class="colored-shadow"
-                      style="background-image: url(&quot;https://raw.githubusercontent.com/creativetimofficial/public-assets/master/soft-ui-design-system/assets/img/color-estate.jpg&quot;);">
+                    <div class="col-lg-7 col-md-7 my-sm-auto mt-3 ms-sm-3">
+                      <h4>
+                        <a href="javascript:;" class="text-dark">{{ $service->name }}</a>
+                      </h4>
+                      <p>
+                        {{ $service->description }}... <a href="{{ route('service.show',['slug' => $service->slug]) }}"> Mais Detalhes </a>
+                      </p>
+                      <div class="author">
+                        <img src="{{ $service->user->profile }}" alt="team-4" class="avatar avatar-sm shadow me-2">
+                        <p class="my-auto">{{ $service->profile->name }}</p>
+                      </div>
                     </div>
                   </div>
                 </div>
-                <div class="col-lg-7 col-md-7 my-sm-auto mt-3 ms-sm-3">
-                  <h4>
-                    <a href="javascript:;" class="text-dark">MateLabs mixes machine learning</a>
-                  </h4>
-                  <p>
-                    If you’ve ever wanted to train a machine learning model and integrate it with IFTTT, a new offering from
-                    MateLabs. MateVerse, a platform where novices can spin out machine... <a href="javascript:;"> Read More
-                    </a>
-                  </p>
-                  <div class="author">
-                    <img src="../../assets/img/team-3.jpg" alt="team-3" class="avatar avatar-sm shadow me-2">
-                    <p class="my-auto">John Mannes</p>
-                  </div>
+              @endforeach
+            </section>
+
+            @if($services->count() > 3)
+              @php $highlightService = $services[4] @endphp
+              <div class="card card-blog card-background">
+                <div class="full-background"
+                  style="background-image: url('{{ $highlightService->image }}')">
                 </div>
-              </div>
-            </div>
-            <div class="card card-plain card-blog my-5">
-              <div class="row">
-                <div class="col-lg-4 col-md-4">
-                  <div class="card-image position-relative border-radius-lg">
-                    <div class="blur-shadow-image">
-                      <img class="img border-radius-lg"
-                        src="https://raw.githubusercontent.com/creativetimofficial/public-assets/master/soft-ui-design-system/assets/img/color-buildings.jpg"
-                        alt="buildings">
-                    </div>
-                    <div class="colored-shadow"
-                      style="background-image: url(&quot;https://raw.githubusercontent.com/creativetimofficial/public-assets/master/soft-ui-design-system/assets/img/color-buildings.jpg&quot;);">
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-7 col-md-7 my-sm-auto mt-3 ms-sm-3">
-                  <h4>
-                    <a href="javascript:;" class="text-dark">US venture investment tricks</a>
-                  </h4>
-                  <p>
-                    Venture investment in U.S. startups rose sequentially in the second quarter of 2017, boosted by large,
-                    late-stage financings and a few outsized early-stage rounds in tech and healthcare.. <a
-                      href="javascript:;"> Read More </a>
-                  </p>
-                  <div class="author">
-                    <img src="../../assets/img/team-2.jpg" alt="team-2" class="avatar avatar-sm shadow me-2">
-                    <p class="my-auto">Devin Coldewey</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-  
-          <div class="card card-blog card-background">
-            <div class="full-background"
-              style="background-image: url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/soft-ui-design-system/assets/img/desert.jpg')">
-            </div>
-            <div class="card-body body-left">
-              <div class="content-left text-start">
-                <h2 class="card-title text-white">Flexible office space means growing your team.</h2>
-                <p class="card-description">Rather than worrying about switching offices every couple years, you can instead
-                  stay in the same location and grow-up from your shared coworking space to an office that takes up an
-                  entire floor.</p>
-                <div class="author">
-                  <img src="../../assets/img/team-2.jpg" alt="..." class="avatar me-2">
-                  <div class="name ms-2">
-                    <span>Mathew Glock</span>
-                    <div class="stats">
-                      <small>Marketing Manager</small>
+                <div class="card-body body-left">
+                  <div class="content-left text-start">
+                    <h2 class="card-title text-white">{{ $highlightService->name }}</h2>
+                    <p class="card-description">{{ $highlightService->description }}</p>
+                    <div class="author">
+                      <img src="{{ $service->user->profile }}" alt="..." class="avatar me-2">
+                      <div class="name ms-2 my-auto">{{ $service->profile->name }}</div>
                     </div>
                   </div>
                 </div>
               </div>
+            @endif
+            
+            @if($services->count() > 4)
+              <section class="py-5 mb-5">
+                @foreach($services->slice(4) as $service)
+                  <div class="card card-plain card-blog mt-5">
+                    <div class="row">
+                      <div class="col-lg-4 col-md-4">
+                        <div class="card-image position-relative border-radius-lg">
+                          <div class="blur-shadow-image">
+                            <img
+                              class="img border-radius-lg"
+                              src="{{ $service->image }}"
+                              alt="architecture"
+                            >
+                          </div>
+                          <div class="colored-shadow"
+                            style="background-image: url('{{ $service->image }}');">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-7 col-md-7 my-sm-auto mt-3 ms-sm-3">
+                        <h4>
+                          <a href="javascript:;" class="text-dark">{{ $service->name }}</a>
+                        </h4>
+                        <p>
+                          {{ $service->description }}... <a href="{{ route('service.show',['slug' => $service->slug]) }}"> Mais Detalhes </a>
+                        </p>
+                        <div class="author">
+                          <img src="{{ $service->user->profile }}" alt="team-4" class="avatar avatar-sm shadow me-2">
+                          <p class="my-auto">{{ $service->profile->name }}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                @endforeach
+              </section>
+            @endif
+          @else
+            <div class="card card-body my-4 mt-lg-5">
+              <p class="bg-gray-200 py-4 rounded-3 text-center mb-0">
+                Ainda não há nenhum serviço sendo oferecido
+              </p>
             </div>
-          </div>
-  
-          <section class="py-5">
-            <div class="card card-plain card-blog mt-5">
-              <div class="row">
-                <div class="col-lg-4 col-md-4">
-                  <div class="card-image position-relative border-radius-lg">
-                    <div class="blur-shadow-image">
-                      <img class="img border-radius-lg"
-                        src="https://raw.githubusercontent.com/creativetimofficial/public-assets/master/soft-ui-design-system/assets/img/color-architecture.jpg"
-                        alt="architecture">
-                    </div>
-                    <div class="colored-shadow"
-                      style="background-image: url(&quot;https://raw.githubusercontent.com/creativetimofficial/public-assets/master/soft-ui-design-system/assets/img/color-architecture.jpg&quot;);">
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-7 col-md-7 my-sm-auto mt-3 ms-sm-3">
-                  <h4>
-                    <a href="javascript:;" class="text-dark">Rover raised to $65 million</a>
-                  </h4>
-                  <p>
-                    Finding temporary housing for your dog should be as easy as renting an Airbnb. That’s the idea behind
-                    Rover, which raised $65 million to expand its pet sitting <a href="javascript:;"> Read More </a>
-                  </p>
-                  <div class="author">
-                    <img src="../../assets/img/team-4.jpg" alt="team-4" class="avatar avatar-sm shadow me-2">
-                    <p class="my-auto">Katie Roof</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="card card-plain card-blog mt-5">
-              <div class="row">
-                <div class="col-lg-4 col-md-4">
-                  <div class="card-image position-relative border-radius-lg">
-                    <div class="blur-shadow-image">
-                      <img class="img border-radius-lg"
-                        src="https://raw.githubusercontent.com/creativetimofficial/public-assets/master/soft-ui-design-system/assets/img/color-estate.jpg"
-                        alt="estate">
-                    </div>
-                    <div class="colored-shadow"
-                      style="background-image: url(&quot;https://raw.githubusercontent.com/creativetimofficial/public-assets/master/soft-ui-design-system/assets/img/color-estate.jpg&quot;);">
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-7 col-md-7 my-sm-auto mt-3 ms-sm-3">
-                  <h4>
-                    <a href="javascript:;" class="text-dark">MateLabs mixes machine learning</a>
-                  </h4>
-                  <p>
-                    If you’ve ever wanted to train a machine learning model and integrate it with IFTTT, a new offering from
-                    MateLabs. MateVerse, a platform where novices can spin out machine... <a href="javascript:;"> Read More
-                    </a>
-                  </p>
-                  <div class="author">
-                    <img src="../../assets/img/team-3.jpg" alt="team-3" class="avatar avatar-sm shadow me-2">
-                    <p class="my-auto">John Mannes</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="card card-plain card-blog my-5">
-              <div class="row">
-                <div class="col-lg-4 col-md-4">
-                  <div class="card-image position-relative border-radius-lg">
-                    <div class="blur-shadow-image">
-                      <img class="img border-radius-lg"
-                        src="https://raw.githubusercontent.com/creativetimofficial/public-assets/master/soft-ui-design-system/assets/img/color-buildings.jpg"
-                        alt="buildings">
-                    </div>
-                    <div class="colored-shadow"
-                      style="background-image: url(&quot;https://raw.githubusercontent.com/creativetimofficial/public-assets/master/soft-ui-design-system/assets/img/color-buildings.jpg&quot;);">
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-7 col-md-7 my-sm-auto mt-3 ms-sm-3">
-                  <h4>
-                    <a href="javascript:;" class="text-dark">US venture investment tricks</a>
-                  </h4>
-                  <p>
-                    Venture investment in U.S. startups rose sequentially in the second quarter of 2017, boosted by large,
-                    late-stage financings and a few outsized early-stage rounds in tech and healthcare.. <a
-                      href="javascript:;"> Read More </a>
-                  </p>
-                  <div class="author">
-                    <img src="../../assets/img/team-2.jpg" alt="team-2" class="avatar avatar-sm shadow me-2">
-                    <p class="my-auto">Devin Coldewey</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-  
-          <ul class="pagination pagination-primary mt-4 ms-2">
-            <li class="page-item">
-              <a class="page-link" href="javascript:;" aria-label="Previous">
-                <span aria-hidden="true"><i class="fa fa-angle-double-left" aria-hidden="true"></i></span>
-              </a>
-            </li>
-            <li class="page-item">
-              <a class="page-link" href="javascript:;">1</a>
-            </li>
-            <li class="page-item">
-              <a class="page-link" href="javascript:;">2</a>
-            </li>
-            <li class="page-item active">
-              <a class="page-link" href="javascript:;">3</a>
-            </li>
-            <li class="page-item">
-              <a class="page-link" href="javascript:;">4</a>
-            </li>
-            <li class="page-item">
-              <a class="page-link" href="javascript:;">5</a>
-            </li>
-            <li class="page-item">
-              <a class="page-link" href="javascript:;" aria-label="Next">
-                <span aria-hidden="true"><i class="fa fa-angle-double-right" aria-hidden="true"></i></span>
-              </a>
-            </li>
-          </ul>
+          @endif
         </div>
         <div class="col-lg-4 ms-auto px-3">
-          <div class="pt-1 pb-5 position-sticky top-1 mt-lg-8 mt-5">
+          <div class="pt-1 pb-5 position-sticky top-1 {{ $categories->count() > 0 ? 'mt-lg-8 mt-5' : 'mt-5' }}">
             <h4>Deseja oferecer algum serviço?</h4>
             <p>Se você exerce alguma atividade e deseja divulgá-la na plataforma clique no botão abaixo para começar a divulgação.</p>
             <a
               href="{{ route('service.create') }}"
               class="btn bg-gradient-primary w-100"
             >Adicionar Serviço</a>
-            <h4 class="mt-5">Últimos serviços solicitados</h4>
-            <a href="javascript::">
-              <div class="card justify-content-center mb-3">
-                <div class="card-body p-3">
-                  <h6 class="mb-0">Top 50 Tips for Creative Tim</h6>
-                  <p class="mb-0 text-body">Mar 08, 2020</p>
-                </div>
-                <div class="position-absolute end-0 me-3 ">
-                  <i class="fas fa-angle-right" aria-hidden="true"></i>
-                </div>
-              </div>
-            </a>
-            <a href="javascript::">
-              <div class="card justify-content-center mb-3">
-                <div class="card-body p-3">
-                  <h6 class="mb-0">Best ways to avoid the Burnout</h6>
-                  <p class="mb-0 text-body">Aug 11, 2020</p>
-                </div>
-                <div class="position-absolute end-0 me-3 ">
-                  <i class="fas fa-angle-right" aria-hidden="true"></i>
-                </div>
-              </div>
-            </a>
-            <a href="javascript::">
-              <div class="card justify-content-center mb-3">
-                <div class="card-body p-3">
-                  <h6 class="mb-0">Fascinating tactics to help your Business</h6>
-                  <p class="mb-0 text-body">Jan 07, 2021</p>
-                </div>
-                <div class="position-absolute end-0 me-3 ">
-                  <i class="fas fa-angle-right" aria-hidden="true"></i>
-                </div>
-              </div>
-            </a>
-            <h4 class="mt-5">Serviços em Alta</h4>
-            <div class="card card-plain card-blog mt-4">
-              <div class="row">
-                <div class="col-lg-4 col-md-4">
-                  <div class="card-image position-relative border-radius-lg">
-                    <div class="blur-shadow-image">
-                      <img class="img border-radius-lg" src="https://demos.creative-tim.com/soft-ui-design-system-pro/assets/img/curved-images/curved11.jpg" alt="curved11">
+
+            @if($lastThreeServicesRequested->count() > 0)
+              <h4 class="mt-5">Últimos serviços solicitados</h4>
+              @foreach($lastThreeServicesRequested as $work)
+                <a href="{{ route('service.show',['slug' => $work->service->slug]) }}">
+                  <div class="card justify-content-center mb-3">
+                    <div class="card-body p-3">
+                      <h6 class="mb-0">{{ $work->service->name }}</h6>
+                      <p class="mb-0 text-body">{{ $work->created_at->format('d/m/Y') }}</p>
                     </div>
-                    <div class="colored-shadow"
-                      style="background-image: url(&quot;https://demos.creative-tim.com/soft-ui-design-system-pro/assets/img/curved-images/curved11.jpg&quot;);"></div>
+                    <div class="position-absolute end-0 me-3 ">
+                      <i class="fas fa-angle-right" aria-hidden="true"></i>
+                    </div>
+                  </div>
+                </a>
+              @endforeach
+            @endif        
+            @if($highServices->count() > 0)
+              <h4 class="mt-5">Serviços em Alta</h4>
+              @foreach($highServices as $service)
+                <div class="card card-plain card-blog mt-4">
+                  <div class="row">
+                    <div class="col-lg-4 col-md-4">
+                      <div class="card-image position-relative border-radius-lg">
+                        <div class="blur-shadow-image">
+                          <img
+                            class="img border-radius-lg"
+                            src="{{ $service->image }}"
+                            alt="{{ $service->name }}"
+                          >
+                        </div>
+                        <div
+                          class="colored-shadow"
+                          style="background-image: url('{{ $service->image }}');"
+                        ></div>
+                      </div>
+                    </div>
+                    <div class="col-lg-8 col-md-8 my-sm-auto mt-3">
+                      <h5>
+                        <a href="{{ route('service.show', ['slug' => $service->slug]) }}" class="text-dark font-weight-normal">
+                          {{ $service->name }}
+                        </a>
+                      </h5>
+                    </div>
                   </div>
                 </div>
-                <div class="col-lg-8 col-md-8 my-sm-auto mt-3">
-                  <h5>
-                    <a href="javascript:;" class="text-dark font-weight-normal">MateLabs mixes machine learning</a>
-                  </h5>
-                </div>
-              </div>
-            </div>
-            <div class="card card-plain card-blog mt-4">
-              <div class="row">
-                <div class="col-lg-4 col-md-4">
-                  <div class="card-image position-relative border-radius-lg">
-                    <div class="blur-shadow-image">
-                      <img class="img border-radius-lg" src="https://demos.creative-tim.com/soft-ui-design-system-pro/assets/img/curved-images/curved9.jpg" alt="curved9">
-                    </div>
-                    <div class="colored-shadow"
-                      style="background-image: url(&quot;https://demos.creative-tim.com/soft-ui-design-system-pro/assets/img/curved-images/curved9.jpg&quot;);"></div>
-                  </div>
-                </div>
-                <div class="col-lg-8 col-md-8 my-sm-auto mt-3">
-                  <h5>
-                    <a href="javascript:;" class="text-dark font-weight-normal">Mixes machine learning</a>
-                  </h5>
-                </div>
-              </div>
-            </div>
-            <div class="card card-plain card-blog mt-4">
-              <div class="row">
-                <div class="col-lg-4 col-md-4">
-                  <div class="card-image position-relative border-radius-lg">
-                    <div class="blur-shadow-image">
-                      <img class="img border-radius-lg" src="https://demos.creative-tim.com/soft-ui-design-system-pro/assets/img/curved-images/curved8.jpg" alt="curved8">
-                    </div>
-                    <div class="colored-shadow"
-                      style="background-image: url(&quot;https://demos.creative-tim.com/soft-ui-design-system-pro/assets/img/curved-images/curved8.jpg&quot;);"></div>
-                  </div>
-                </div>
-                <div class="col-lg-8 col-md-8 my-sm-auto mt-3">
-                  <h5>
-                    <a href="javascript:;" class="text-dark font-weight-normal">MateLabs mixes machine learning</a>
-                  </h5>
-                </div>
-              </div>
-            </div>
-            <h4 class="mt-5 mb-4">Tags</h4>
-            <span class="badge bg-light text-dark">Support</span>
-            <span class="badge bg-light text-dark">Business</span>
-            <span class="badge bg-light text-dark">Analytics</span>
-            <span class="badge bg-light text-dark">Tutorials</span>
-            <span class="badge bg-light text-dark mt-2">Sponsorships</span>
+              @endforeach
+            @endif
+            @if($outherCategories->count() > 0)
+              <h4 class="mt-5 mb-4">Categorias</h4>
+              @foreach($outherCategories as $outher)
+                <a
+                  href="{{ route('service.index',['slug' => $outher->slug]) }}"
+                  class="badge bg-light text-dark"
+                >{{ $outher->name }}</a>
+              @endforeach
+            @endif
           </div>
         </div>
       </div>
