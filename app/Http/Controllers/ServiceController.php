@@ -10,7 +10,7 @@ use App\Models\ServiceCategory;
 
 class ServiceController extends Controller
 {
-  public function index($slug = null){
+  public function index(){
     if(auth()->user()->active_area){
       $categories_id = array_column(auth()->user()->active_area->services()
         ->groupBy('service_category_id')
@@ -19,9 +19,7 @@ class ServiceController extends Controller
         ->toArray(),
         'id'
       );
-      $categories = $categories = ServiceCategory::when($slug, function($condition) use ($slug){
-        return $condition->where('slug',$slug);
-      })->whereIn('id',$categories_id)->where(
+      $categories = $categories = ServiceCategory::whereIn('id',$categories_id)->where(
         'count_services', '>', 0
       )->take(3)->inRandomOrder()->get()->map(function($category){
         $category->service = auth()->user()->active_area->services()
@@ -33,9 +31,7 @@ class ServiceController extends Controller
         return !!$category->service;
       });
     }
-    else $categories = ServiceCategory::when($slug, function($condition) use ($slug){
-      return $condition->where('slug',$slug);
-    })->where(
+    else $categories = ServiceCategory::where(
       'count_services', '>', 0
     )->take(3)->inRandomOrder()->get()->map(function($category){
       $category->service = $category->services()->inRandomOrder()->first();

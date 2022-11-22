@@ -213,7 +213,7 @@
                       <div class="card-header p-0 mt-n4 mx-3">
                         <a class="d-block shadow-xl border-radius-xl">
                           <img
-                            src="{{ $work->service->getImage() }}"
+                            src="{{ $work->service->image }}"
                             alt="trabalho solicitado"
                             class="img-fluid shadow border-radius-xl"
                           >

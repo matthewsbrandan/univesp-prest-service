@@ -4,6 +4,14 @@
   $plugins = ['multisteps-form','jquery-mask','cropper'];
 @endphp
 @extends('layout.app')
+@section('head')
+  <style>
+    .service-category-item > div.bg-gradient-primary h5,
+    .service-category-item > div.bg-gradient-primary a{
+      color: white;
+    }
+  </style>
+@endsection
 @section('content')
   @include('layout.aside')
   <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
@@ -84,4 +92,16 @@
     'size' => (object)['w'=> 800, 'h'=> 533]
   ]])
   <!-- END:: HANDLE IMAGE -->
+  <script>
+    function handleSelectCategory(el, id){
+      let style_class = {
+        active: 'bg-gradient-primary text-white',
+        normal: 'bg-light'
+      }
+      $('.service-category-item > div').removeClass(style_class.active).addClass(style_class.normal);
+      el.children('div').removeClass(style_class.normal).addClass(style_class.active);
+
+      $('#category_id').val(id);
+    }
+  </script>
 @endsection

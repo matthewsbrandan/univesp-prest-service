@@ -3,11 +3,11 @@
     <div class="position-relative">
       <a class="d-block blur-shadow-image">
         <img
-          src="{{ $service->image_formatted }}"
+          src="{{ $service->image }}"
           alt="{{ $service->slug }}" class="img-fluid shadow border-radius-lg">
       </a>
       <div class="colored-shadow"
-        style="background-image: url({{ $service->image_formatted }});">
+        style="background-image: url({{ $service->image }});">
       </div>
     </div>
     <div class="card-body px-1 pt-3">

@@ -5,22 +5,26 @@
       <!-- TO-DO -->
       @foreach($categories as $category)
         <div
-          class="col-md-6"
+          class="col-md-6 service-category-item"
           id="service-category-{{ $category->slug }}"
           data-name="{{ $category->name }}"
           data-slug="{{ $category->slug }}"
           data-keywords="{{ implode(',',$category->keywords) }}"
+          onclick="handleSelectCategory($(this), '{{ $category->id }}')"
         >
           @include('components.card.category',[
             'category' => $category
           ])
         </div>
       @endforeach
-      
-      <!-- 
-        -- CATEGORIES
-        'service_category_id'
-      -->
+      <input
+        type="hidden"
+        name="service_category_id"
+        id="category_id"
+        data-step="2"
+        data-message="Selecione uma categoria"
+        required
+      />
     </div>
 
     <div class="button-row d-flex mt-5">

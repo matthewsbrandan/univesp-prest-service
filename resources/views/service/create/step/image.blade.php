@@ -28,7 +28,7 @@
         id="container-add-image"
       >
         <img
-          src="{{ isset($service) ? $service->getImage() : asset('images/solid-color-pale-blue.jpg') }}"
+          src="{{ isset($service) ? $service->image : asset('images/solid-color-pale-blue.jpg') }}"
           style="
             width: 100%;
             height: 13rem;
@@ -43,7 +43,7 @@
           type="hidden"
           name="image_name"
           id="image_name"
-          value="{{ $service->image ?? '' }}"
+          value="{{ isset($service) ? $service->getImageWithoutAsset('') : '' }}"
         />
 
         <div class="overlay">

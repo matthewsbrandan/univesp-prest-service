@@ -349,7 +349,7 @@
               <h4 class="mt-5 mb-4">Categorias</h4>
               @foreach($outherCategories as $outher)
                 <a
-                  href="{{ route('service.index',['slug' => $outher->slug]) }}"
+                  href="{{ route('service_category.show',['slug' => $outher->slug]) }}"
                   class="badge bg-light text-dark"
                 >{{ $outher->name }}</a>
               @endforeach

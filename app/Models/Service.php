@@ -47,9 +47,11 @@ class Service extends Model
   public function getImageAttribute($value){
     return asset($value);
   }
+  public function getImageWithoutAsset($default = null){
+    return $this->image ? str_replace(asset(''), $this->image, '') : $default;
+  }
   public function loadData(){
     $service = $this;
-    $service->image_formatted = $service->getImage();
 
     return $service;
   }

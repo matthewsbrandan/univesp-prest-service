@@ -25,13 +25,14 @@ Route::get('login', [LoginController::class, 'login'])->name('login');
 Route::post('login', [LoginController::class, 'authenticate'])->name('authenticate');
 
 Route::name('service.')->group(function(){
-  Route::get('servicos/{slug?}', [ServiceController::class, 'index'])->name('index');
+  Route::get('servicos', [ServiceController::class, 'index'])->name('index');
   Route::get('servico/detalhes/{slug}', [ServiceController::class, 'show'])->name('show');
   // OUTHER PRIVATE ROUTES
 });
 
 Route::name('service_category.')->group(function(){
   Route::get('categorias', [ServiceCategoryController::class, 'index'])->name('index');
+  Route::get('categorias/editar/{slug}', [ServiceCategoryController::class, 'edit'])->name('edit');
   Route::get('categoria/{slug}', [ServiceCategoryController::class, 'show'])->name('show');
 
   // OUTHERS ADMIN ROUTES

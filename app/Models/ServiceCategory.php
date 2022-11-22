@@ -33,6 +33,9 @@ class ServiceCategory extends Model
     return explode(',', $value) ?? [];
   }
   #endregion MUTATORS
+  public function getImageWithoutAsset($default = null){
+    return $this->image ? str_replace(asset(''), $this->image, '') : $default;
+  }
   #region STATIC FUNCTIONS
   public static function generateSlug($name){
     $slug = Controller::generateSlug($name);
