@@ -1,11 +1,12 @@
 <div class="multisteps-form__panel border-radius-xl bg-white" data-animation="FadeIn">
-  <h5 class="font-weight-bolder pt-1">Selecione a Categoria</h5>
+  <h5 class="font-weight-bolder pt-1 mb-0">Selecione a Categoria</h5>
+  <p class="text-sm mb-4">Selecione a categoria em qual seu serviço mais se encaixa.</p>
   <div class="multisteps-form__content">
     <div class="row" id="container-service-categories">
       <!-- TO-DO -->
       @foreach($categories as $category)
         <div
-          class="col-md-6 service-category-item"
+          class="col-md-6 service-category-item hide-details"
           id="service-category-{{ $category->slug }}"
           data-name="{{ $category->name }}"
           data-slug="{{ $category->slug }}"

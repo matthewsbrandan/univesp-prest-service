@@ -109,8 +109,13 @@ class ServiceController extends Controller
       'Cadastrar Serviço'
     );
 
+    $areas = auth()->user()->areas->map(function($area){
+      return $area->loadData();
+    });
+
     return view('service.create.index',[
-      'categories' => $categories
+      'categories' => $categories,
+      'areas' => $areas
     ]);
   }
   public function store(Request $request){
