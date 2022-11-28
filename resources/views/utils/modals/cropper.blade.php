@@ -23,7 +23,7 @@
         <button type="button" class="btn bg-gradient-primary js-main-image">Salvar</button>
         <button 
           type="button"
-          class="btn bg-gradient-secondary"
+          class="btn bg-gradient-light"
           data-bs-dismiss="modal" aria-label="Close"
         >Cancelar</button>
       </div>

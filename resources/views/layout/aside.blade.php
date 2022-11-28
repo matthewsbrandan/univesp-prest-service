@@ -108,15 +108,20 @@
         @endauth
       </ul>
     </div>
-    @if(auth()->user()->active_area)
-      <div class="sidenav-footer position-absolute w-100 bottom-0">
-        <div class="mx-3">
+    <div class="sidenav-footer position-absolute w-100 bottom-0">
+      <div class="mx-3">
+        @if(auth()->user()->active_area)
           <a
             href="{{ route('area.show',['slug' => auth()->user()->active_area->slug]) }}"
             class="btn bg-gradient-primary mt-4 w-100 text-ellipsis"
           >{{ auth()->user()->active_area->name }}</a>
-        </div>
+        @else
+          <a
+            href="{{ route('/') }}"
+            class="btn bg-gradient-primary mt-4 w-100 text-ellipsis"
+          >Pesquisar Condomínios</a>
+        @endif
       </div>
-    @endif
+    </div>
   </aside>
 @endauth

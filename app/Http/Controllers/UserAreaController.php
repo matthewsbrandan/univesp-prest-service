@@ -31,21 +31,23 @@ class UserAreaController extends Controller
       'result' => false,
       'response' => 'Condomínio não encontrado'
     ];
-    if(UserArea::whereUserId(auth()->user()->id)
+
+    $userArea = UserArea::whereUserId(auth()->user()->id)
       ->whereAreaId($area->id)
-      ->first()
-    ) return (object)[
+      ->first();
+  
+    if($userArea && $userArea->id == auth()->user()->active_area_id) return (object)[
       'result' => false,
-      'response' => 'Você já está vinculado a esse condomínio'
+      'response' => 'Esse condomínio já está vinculado e selecionado como principal'
     ];
 
-    UserArea::create([
+    if(!$userArea) $userArea = UserArea::create([
       'user_id' => auth()->user()->id,
       'area_id' => $area->id
     ]);
     
     auth()->user()->update([
-      'active_area_id' => auth()->user()->id
+      'active_area_id' => $area->id
     ]);
 
     return (object)[

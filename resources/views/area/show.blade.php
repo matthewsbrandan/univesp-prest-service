@@ -17,7 +17,7 @@
         'name' => 'Home',
         'href' => route('home')
       ],(object)[
-        'name' => $area->name,
+        'name' => 'Condomínio',
         'href' => '#'
       ]]
     ]])
@@ -42,6 +42,16 @@
                 href="{{ route('user_area.store',['id' => $area->id]) }}"
                 class="btn bg-gradient-primary mb-0 ms-2"
               >Vincular</a>
+            @elseif($area->id == auth()->user()->active_area_id)
+              <a
+                href="{{ route('/') }}"
+                class="btn bg-gradient-primary mb-0 ms-2"
+              >Ver Outros</a>
+            @else
+              <a
+                href="{{ route('user_area.store',['id' => $area->id]) }}"
+                class="btn bg-gradient-primary mb-0 ms-2"
+              >Selecionar</a>
             @endif
           </div>
         </div>

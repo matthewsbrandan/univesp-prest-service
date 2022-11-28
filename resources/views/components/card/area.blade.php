@@ -24,10 +24,17 @@
         <h5>{{ $area->name }}</h5>
       </a>
       <p>{{ $area->description }}</p>
-      <a
-        href="{{ route('area.show',['slug' => $area->slug]) }}"
-        class="btn btn-outline-primary btn-sm"
-      >Saber Mais</a>
+      @if(!auth()->user() || !$area->iAmVinculed())
+        <a
+          href="{{ route('area.show',['slug' => $area->slug]) }}"
+          class="btn btn-outline-primary btn-sm"
+        >Saber Mais</a>
+      @elseif($area->id != auth()->user()->active_area_id)
+        <a
+          href="{{ route('user_area.store',['id' => $area->id]) }}"
+          class="btn btn-outline-dark btn-sm"
+        >Selecionar</a>        
+      @endif
     </div>
   </div>
 </div>
