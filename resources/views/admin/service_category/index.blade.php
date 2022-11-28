@@ -26,7 +26,7 @@
           </a>
         </div>
         @foreach($categories as $category)
-          <div class="col-lg-4 col-md-6 px-sm-1 mt-md-0 mt-4">
+          <div class="col-lg-4 col-md-6 px-sm-1 mt-md-0 mt-4 mb-2">
             @include('components.card.category',[
               'category' => $category,
               'mode' => 'admin'

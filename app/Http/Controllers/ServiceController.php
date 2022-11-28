@@ -4,21 +4,24 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Models\Area;
 use App\Models\Work;
 use App\Models\Service;
+use App\Models\ServiceArea;
 use App\Models\ServiceCategory;
 
 class ServiceController extends Controller
 {
   public function index(){
     if(auth()->user()->active_area){
-      $categories_id = array_column(auth()->user()->active_area->services()
-        ->groupBy('service_category_id')
-        ->select('id')
-        ->get()
-        ->toArray(),
-        'id'
-      );
+      $categories_id = [];
+      foreach(auth()->user()->active_area->services as $service){
+        if(!in_array(
+          $service->service_category_id,
+          $categories_id
+        )) $categories_id[]= $service->service_category_id;
+      }
+
       $categories = $categories = ServiceCategory::whereIn('id',$categories_id)->where(
         'count_services', '>', 0
       )->take(3)->inRandomOrder()->get()->map(function($category){
@@ -40,13 +43,17 @@ class ServiceController extends Controller
       return !!$category->service;
     });
 
+    $exclude_ids = [];
+    foreach($categories as $category) $exclude_ids[] = $category->service_id;
+
     $outherCategories = ServiceCategory::whereNotIn('id', array_column(
       $categories->toArray()
       ,'id'
     ))->where('count_services','>',0)->take(5)->get();
 
     $data = $this->more(new Request([
-      'json' => false
+      'json' => false,
+      'exclude_ids' => $exclude_ids
     ]));
 
     if(!$data->result) return $this->sweet(
@@ -78,7 +85,7 @@ class ServiceController extends Controller
     $search = $request->search ?? null;
     $json = $request->json ?? true;
 
-    if(auth()->user()->active_area) $queryService = auth()->user()->active_area->services()->whereNotIn('id',$exclude_ids);
+    if(auth()->user()->active_area) $queryService = auth()->user()->active_area->services()->whereNotIn('services.id',$exclude_ids);
     else $queryService = Service::whereNotIn('id',$exclude_ids);    
 
     $services = $queryService->when($search, function($condition) use ($search){
@@ -124,7 +131,7 @@ class ServiceController extends Controller
     if(!$request->name) $errors[]= 'Preencha o nome';
     if(!$request->description) $errors[]= 'Preencha a descrição';
     if(!$request->service_category_id) $errors[]= 'Selecione a categoria do serviço';  
-    if(!$request->contacts || !json_decode($request->contacts)) $errors[]= 'Preencha no mínimo uma informação de contato';
+    if(!$request->contacts || count($request->contacts) == 0) $errors[]= 'Preencha no mínimo uma informação de contato';
     // if(!$request->instructions) -- nullable
     // if(!$request->image_name) -- nullable
     if(count($errors) > 0) return $this->sweet(
@@ -160,8 +167,22 @@ class ServiceController extends Controller
       );
     }
     #endregion HANDLE IF IS UPDATE
-    $contacts = json_decode($request->contacts); // COLOCAR ALGUMA FUNÇÃO PARA VERIFICAR SE ESTÁ DENTRO DO PADRÃO ESPERADO
+    $contacts = $request->contacts;
     
+    $instructions = [];
+    if(isset($request->instruction)) $instructions = $request->instruction;
+    if(isset($request->addresses)) $instructions+= ['addresses' => $request->addresses];
+
+    $data = [
+      'name' => $request->name,
+      'description' => $request->description,
+      
+      'service_category_id' => $category->id,
+      
+      'contacts' => json_encode($contacts),
+      'instructions' => json_encode($instructions),
+    ];
+
     #region HANDLE IMAGE
     $image = null; // LIDAR COM IMAGEM
     if($request->image_name){
@@ -178,19 +199,9 @@ class ServiceController extends Controller
         'Salvar Serviço'
       );
     }
+    else $data+= ['image' => null];
     #endregion HANDLE IMAGE
 
-    $data = [
-      'name' => $request->name,
-      'description' => $request->description,
-      
-      'service_category_id' => $category->id,
-      
-      'contacts' => json_encode($contacts),
-      'instructions' => $instructions,
-
-      'image' => $image,
-    ];
     
     if(!$id){
       $slug = Service::generateSlug($request->name);
@@ -199,8 +210,19 @@ class ServiceController extends Controller
         'user_id' => auth()->user()->id
       ];
     }
+    else ServiceArea::whereServiceId($id)->delete();
 
-    Service::updateOrCreate(['id' => $id], $data);
+    $service = Service::updateOrCreate(['id' => $id], $data);
+
+    if($area_ids = json_decode($request->area_ids)) foreach($area_ids as $area_id){
+      if($area = Area::whereId($area_id)->first()){
+        ServiceArea::create([
+          'service_id' => $service->id,
+          'area_id' => $area_id
+        ]);
+      }
+      unset($area);
+    }
 
     return $this->toast(
       redirect()->route('service.index'),

@@ -7,8 +7,8 @@
         <div class="input-group input-group-dynamic">
           <label for="contact-facebook" class="form-label">Link do facebook (opcional)</label>
           <input
-            type="text"
-            name="contact[facebook]"
+            type="url"
+            name="contacts[facebook]"
             class="multisteps-form__input form-control"
             id="contact-facebook"
             data-step="#step-3"
@@ -21,8 +21,8 @@
         <div class="input-group input-group-dynamic">
           <label for="contact-instagram" class="form-label">Link do instagram (opcional)</label>
           <input
-            type="text"
-            name="contact[instagram]"
+            type="url"
+            name="contacts[instagram]"
             class="multisteps-form__input form-control"
             id="contact-instagram"
             data-step="#step-3"
@@ -35,8 +35,8 @@
         <div class="input-group input-group-dynamic">
           <label for="contact-twitter" class="form-label">Link do twitter (opcional)</label>
           <input
-            type="text"
-            name="contact[twitter]"
+            type="url"
+            name="contacts[twitter]"
             class="multisteps-form__input form-control"
             id="contact-twitter"
             data-step="#step-3"
@@ -49,8 +49,8 @@
         <div class="input-group input-group-dynamic">
           <label for="contact-youtube" class="form-label">Link do youtube (opcional)</label>
           <input
-            type="text"
-            name="contact[youtube]"
+            type="url"
+            name="contacts[youtube]"
             class="multisteps-form__input form-control"
             id="contact-youtube"
             data-step="#step-3"
@@ -68,7 +68,7 @@
           <label for="contact-twitter" class="form-label">Link do whatsapp (opcional)</label>
           <input
             type="text"
-            name="contact[whatsapp]"
+            name="contacts[whatsapp]"
             id="contact-whatsapp"          
             class="multisteps-form__input form-control"
             data-step="#step-3"
@@ -82,8 +82,8 @@
           <label for="contact-twitter" class="form-label">Link do telefone (opcional)</label>
           <input
             type="text"
-            name="contact[phone]"
-            id="contact-phone"          
+            name="contacts[phone]"
+            id="contact-phone"
             class="multisteps-form__input form-control"
             data-step="#step-3"
             onfocus="focused(this)"
@@ -95,8 +95,8 @@
         <div class="input-group input-group-dynamic">
           <label for="contact-twitter" class="form-label">Link do email (opcional)</label>
           <input
-            type="text"
-            name="contact[email]"
+            type="email"
+            name="contacts[email]"
             id="contact-email"          
             class="multisteps-form__input form-control"
             data-step="#step-3"
@@ -109,8 +109,8 @@
         <div class="input-group input-group-dynamic">
           <label for="contact-twitter" class="form-label">Link de site (opcional)</label>
           <input
-            type="text"
-            name="contact[site]"
+            type="url"
+            name="contacts[site]"
             id="contact-site"          
             class="multisteps-form__input form-control"
             data-step="#step-3"

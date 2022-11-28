@@ -32,16 +32,16 @@ class Area extends Model
     return $this->belongsTo(User::class, 'user_id');
   }
   public function services(){
-    return $this->belongsToMany(Service::class, 'service_areas', 'service_id');
+    return $this->belongsToMany(Service::class, 'service_areas', 'area_id');
   }
   public function servicesPivot(){
     return $this->hasMany(ServiceArea::class, 'area_id');
   }
   public function followers(){
-    return $this->belongsToMany(User::class, 'user_areas', 'user_id');
+    return $this->belongsToMany(User::class, 'user_areas', 'area_id');
   }
   public function followersPivot(){
-    return $this->hasMany(UserArea::class, 'user_id');
+    return $this->hasMany(UserArea::class, 'area_id');
   }
   #endregion RELATIONSHIP
   public function getAddress($in_array_format = false){

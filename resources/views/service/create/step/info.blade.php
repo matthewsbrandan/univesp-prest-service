@@ -2,6 +2,7 @@
   <h5 class="font-weight-bolder pt-1">Informações do Serviço</h5>
   <div class="multisteps-form__content">
     {{ csrf_field() }}
+    @isset($service) <input type="hidden" name="service_id" value="{{ $service->id }}"> @endisset
     <div class="row mt-3">
       <div class="col-md-5">
         <div class="d-flex justify-content-center align-items-center flex-column">

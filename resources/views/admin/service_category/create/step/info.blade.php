@@ -4,7 +4,7 @@
     {{ csrf_field() }}
     <div class="row mt-3">
       <div class="col-md-6">
-        <div class="input-group input-group-dynamic">
+        <div class="input-group input-group-dynamic @isset($service_category) is-filled @endisset ">
           <label for="service-category-name" class="form-label">Nome</label>
           <input
             class="multisteps-form__input form-control"
@@ -16,12 +16,13 @@
             data-step="#step-1"
             data-error-message="Preencha o nome do Condomínio"
             value="{{ $service_category->name ?? '' }}"
+            autofocus
             required
           />
         </div>
       </div>
       <div class="col-md-6">
-        <div class="input-group input-group-dynamic">
+        <div class="input-group input-group-dynamic @isset($service_category) is-filled @endisset ">
           <label for="service-category-keywords" class="form-label">Palavras Chave</label>
           <input
             class="multisteps-form__input form-control"
@@ -31,14 +32,14 @@
             onfocus="focused(this)"
             onfocusout="defocused(this)"
             data-step="#step-1"
-            data-error-message="Preencha o nome do Condomínio"
-            value="{{ $service_category->keywords ?? '' }}"
+            data-error-message="Insira as palavras chaves"
+            value="{{ isset($service_category) ? implode(',',$service_category->keywords) : '' }}"
             required
           />
         </div>
       </div>
       <div class="col-12 mt-3">
-        <div class="input-group input-group-dynamic">
+        <div class="input-group input-group-dynamic @isset($service_category) is-filled @endisset ">
           <label for="service-category-description" class="form-label">Descrição</label>
           <textarea
             class="multisteps-form__input form-control"

@@ -6,7 +6,7 @@
       <!-- TO-DO -->
       @foreach($categories as $category)
         <div
-          class="col-md-6 service-category-item hide-details"
+          class="col-md-6 service-category-item hide-details mb-2"
           id="service-category-{{ $category->slug }}"
           data-name="{{ $category->name }}"
           data-slug="{{ $category->slug }}"

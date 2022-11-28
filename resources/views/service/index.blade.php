@@ -32,18 +32,19 @@
       <header>
         <div id="carouselCategoriesControls" class="carousel slide" data-bs-ride="carousel">
           <div class="carousel-inner">
-            <div class="carousel-item">
+            @php $category = $categories[0]; @endphp
+            <div class="carousel-item active">
               <div class="page-header min-vh-75 m-3 border-radius-xl"
-                style="background-image: url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/soft-ui-design-system/assets/img/mark.jpg');">
+                style="background-image: url('{{ $category->service->image }}');">
                 <span class="mask bg-gradient-dark"></span>
                 <div class="container">
                   <div class="row">
                     <div class="col-lg-6 my-auto">
-                      <h4 class="text-white mb-0 fadeIn1 fadeInBottom">Pricing Plans</h4>
-                      <h1 class="text-white fadeIn2 fadeInBottom">Work with the rockets</h1>
-                      <p class="lead text-white opacity-8 fadeIn3 fadeInBottom">Wealth creation is an evolutionarily recent
-                        positive-sum game. Status is an old zero-sum game. Those attacking wealth creation are often just
-                        seeking status.</p>
+                      <h4 class="text-white mb-0 fadeIn1 fadeInBottom">{{ $category->service->name }}</h4>
+                      <h1 class="text-white fadeIn2 fadeInBottom">{{ $category->name }}</h1>
+                      <p class="lead text-white opacity-8 fadeIn3 fadeInBottom">
+                        {{ $category->service->description }}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -79,99 +80,108 @@
                 </div>
               </div>
             </div>
-            <div class="carousel-item">
-              <div class="page-header min-vh-75 m-3 border-radius-xl"
-                style="background-image: url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/soft-ui-design-system/assets/img/meeting.jpg');">
-                <span class="mask bg-gradient-dark"></span>
-                <div class="container">
-                  <div class="row">
-                    <div class="col-lg-6 my-auto">
-                      <h4 class="text-white mb-0 fadeIn1 fadeInBottom">Our Team</h4>
-                      <h1 class="text-white fadeIn2 fadeInBottom">Work with the best</h1>
-                      <p class="lead text-white opacity-8 fadeIn3 fadeInBottom">Free people make free choices. Free choices
-                        mean you get unequal outcomes. You can have freedom, or you can have equal outcomes. You can’t have
-                        both.</p>
+            @if($categories->count() > 1)
+              @php $category = $categories[1]; @endphp
+              <div class="carousel-item">
+                <div class="page-header min-vh-75 m-3 border-radius-xl"
+                  style="background-image: url('{{ $category->service->image }}');">
+                  <span class="mask bg-gradient-dark"></span>
+                  <div class="container">
+                    <div class="row">
+                      <div class="col-lg-6 my-auto">
+                        <h4 class="text-white mb-0 fadeIn1 fadeInBottom">{{ $category->service->name }}</h4>
+                        <h1 class="text-white fadeIn2 fadeInBottom">{{ $category->name }}</h1>
+                        <p class="lead text-white opacity-8 fadeIn3 fadeInBottom">
+                          {{ $category->description}}
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div class="container-fluid px-3">
-                <div class="row">
-                  <div class="col-lg-4 col-md-6">
-                    @include('components.card.category',[
-                      'category' => $categories[0],
-                      'card_category_style' => (object)['button_class' => 'text-dark']
-                    ])
-                  </div>
-                  @if($categories->count() > 1)
-                    <div class="col-lg-4 col-md-6 px-sm-1 mt-md-0 mt-4">
+                <div class="container-fluid px-3">
+                  <div class="row">
+                    <div class="col-lg-4 col-md-6">
                       @include('components.card.category',[
-                        'category' => $categories[1],
-                        'card_category_style' => (object)[
-                          'container_class' => 'info-horizontal bg-gradient-info border-radius-xl py-5 px-4',
-                          'text_class' => 'text-white',
-                          'button_class' => 'text-white'
-                        ]
-                      ])
-                    </div>
-                  @endif
-                  @if($categories->count() > 2)
-                    <div class="col-lg-4 mt-lg-0 mt-4">
-                      @include('components.card.category',[
-                        'category' => $categories[2],
+                        'category' => $categories[0],
                         'card_category_style' => (object)['button_class' => 'text-dark']
                       ])
                     </div>
-                  @endif
+                    @if($categories->count() > 1)
+                      <div class="col-lg-4 col-md-6 px-sm-1 mt-md-0 mt-4">
+                        @include('components.card.category',[
+                          'category' => $categories[1],
+                          'card_category_style' => (object)[
+                            'container_class' => 'info-horizontal bg-gradient-info border-radius-xl py-5 px-4',
+                            'text_class' => 'text-white',
+                            'button_class' => 'text-white'
+                          ]
+                        ])
+                      </div>
+                    @endif
+                    @if($categories->count() > 2)
+                      <div class="col-lg-4 mt-lg-0 mt-4">
+                        @include('components.card.category',[
+                          'category' => $categories[2],
+                          'card_category_style' => (object)['button_class' => 'text-dark']
+                        ])
+                      </div>
+                    @endif
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="carousel-item active">
-              <div class="page-header min-vh-75 m-3 border-radius-xl"
-                style="background-image: url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/soft-ui-design-system/assets/img/lounge.jpg');">
-                <span class="mask bg-gradient-dark"></span>
-                <div class="container">
-                  <div class="row">
-                    <div class="col-lg-6 my-auto">
-                      <h4 class="text-white mb-0 fadeIn1 fadeInBottom">Office Places</h4>
-                      <h1 class="text-white fadeIn2 fadeInBottom">Work from home</h1>
-                      <p class="lead text-white opacity-8 fadeIn3 fadeInBottom">You’re spending time to save money when you
-                        should be spending money to save time.</p>
+            @endif
+            @if($categories->count() > 2)
+              @php $category = $categories[2]; @endphp
+              <div class="carousel-item">
+                <div
+                  class="page-header min-vh-75 m-3 border-radius-xl"
+                  style="background-image: url('{{ $category->service->image }}');"
+                >
+                  <span class="mask bg-gradient-dark"></span>
+                  <div class="container">
+                    <div class="row">
+                      <div class="col-lg-6 my-auto">
+                        <h4 class="text-white mb-0 fadeIn1 fadeInBottom">{{ $category->service->name }}</h4>
+                        <h1 class="text-white fadeIn2 fadeInBottom">{{ $category->name }}</h1>
+                        <p class="lead text-white opacity-8 fadeIn3 fadeInBottom">
+                          {{ $category->service->description }}
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div class="container-fluid px-3">
-                <div class="row">
-                  <div class="col-lg-4 col-md-6">
-                    @include('components.card.category',[
-                      'category' => $categories[0],
-                      'card_category_style' => (object)['button_class' => 'text-dark']
-                    ])
-                  </div>
-                  @if($categories->count() > 1)
-                    <div class="col-lg-4 col-md-6 px-sm-1 mt-md-0 mt-4">
+                <div class="container-fluid px-3">
+                  <div class="row">
+                    <div class="col-lg-4 col-md-6">
                       @include('components.card.category',[
-                        'category' => $categories[1],
+                        'category' => $categories[0],
                         'card_category_style' => (object)['button_class' => 'text-dark']
                       ])
                     </div>
-                  @endif
-                  @if($categories->count() > 2)
-                    <div class="col-lg-4 mt-lg-0 mt-4">
-                      @include('components.card.category',[
-                        'category' => $categories[2],
-                        'card_category_style' => (object)[
-                          'container_Class' => 'info-horizontal bg-gradient-danger border-radius-xl py-5 px-4',
-                          'text_class' => 'text-white',
-                          'button_class' => 'text-white'
-                        ]
-                      ])
-                    </div>
-                  @endif
+                    @if($categories->count() > 1)
+                      <div class="col-lg-4 col-md-6 px-sm-1 mt-md-0 mt-4">
+                        @include('components.card.category',[
+                          'category' => $categories[1],
+                          'card_category_style' => (object)['button_class' => 'text-dark']
+                        ])
+                      </div>
+                    @endif
+                    @if($categories->count() > 2)
+                      <div class="col-lg-4 mt-lg-0 mt-4">
+                        @include('components.card.category',[
+                          'category' => $categories[2],
+                          'card_category_style' => (object)[
+                            'container_Class' => 'info-horizontal bg-gradient-danger border-radius-xl py-5 px-4',
+                            'text_class' => 'text-white',
+                            'button_class' => 'text-white'
+                          ]
+                        ])
+                      </div>
+                    @endif
+                  </div>
                 </div>
               </div>
-            </div>
+            @endif
           </div>
           <div class="min-vh-75 position-absolute w-100 top-0">
             <a class="carousel-control-prev" href="#carouselCategoriesControls" role="button" data-bs-slide="prev">
@@ -218,7 +228,7 @@
                       </p>
                       <div class="author">
                         <img src="{{ $service->user->profile }}" alt="team-4" class="avatar avatar-sm shadow me-2">
-                        <p class="my-auto">{{ $service->profile->name }}</p>
+                        <p class="my-auto">{{ $service->user->name }}</p>
                       </div>
                     </div>
                   </div>
@@ -281,7 +291,7 @@
                 @endforeach
               </section>
             @endif
-          @else
+          @elseif($categories->count() == 0)
             <div class="card card-body my-4 mt-lg-5">
               <p class="bg-gray-200 py-4 rounded-3 text-center mb-0">
                 Ainda não há nenhum serviço sendo oferecido

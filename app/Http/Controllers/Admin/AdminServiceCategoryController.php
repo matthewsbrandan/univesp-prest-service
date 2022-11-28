@@ -18,6 +18,18 @@ class AdminServiceCategoryController extends Controller
   public function create(){
     return view('admin.service_category.create.index');
   }
+  public function edit($slug){
+    if(!$service_category = ServiceCategory::whereSlug($slug)->first()) return $this->sweet(
+      redirect()->back(),
+      'Categoria não encontrada',
+      'error',
+      'Editar Categoria'
+    );
+    
+    return view('admin.service_category.create.index',[
+      'service_category' => $service_category
+    ]);
+  }
   public function store(Request $request){
     $errors = [];
     if(!$request->name) $errors[] = 'Preencha o nome';

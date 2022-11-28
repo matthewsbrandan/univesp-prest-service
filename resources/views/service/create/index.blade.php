@@ -150,5 +150,8 @@
       }
       $('#service_area_id').val(JSON.stringify(arr_areas));
     }
+    $(function(){
+      $('#contact-whatsapp,#contact-phone').mask("(00) 00000-0000");
+    });
   </script>
 @endsection

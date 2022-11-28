@@ -32,7 +32,6 @@ Route::name('service.')->group(function(){
 
 Route::name('service_category.')->group(function(){
   Route::get('categorias', [ServiceCategoryController::class, 'index'])->name('index');
-  Route::get('categorias/editar/{slug}', [ServiceCategoryController::class, 'edit'])->name('edit');
   Route::get('categoria/{slug}', [ServiceCategoryController::class, 'show'])->name('show');
 
   // OUTHERS ADMIN ROUTES
@@ -75,6 +74,7 @@ Route::middleware(['auth'])->group(function(){
     Route::name('service_category.')->group(function(){
       Route::get('gerenciar/categorias', [AdminServiceCategoryController::class, 'index'])->name('index');
       Route::get('gerenciar/categorias/nova', [AdminServiceCategoryController::class, 'create'])->name('create');
+      Route::get('gerenciar/categorias/editar/{slug}', [AdminServiceCategoryController::class, 'edit'])->name('edit');
       Route::post('gerenciar/categorias/salvar', [AdminServiceCategoryController::class, 'store'])->name('store');
     });
 

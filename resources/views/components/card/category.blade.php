@@ -13,7 +13,7 @@
     <p class="{{ $card_category_style->text_class ?? '' }}">{{ $category->description }}</p>
     @if(isset($mode) && $mode == 'admin')
       <a
-        href="{{ route('service_category.edit') }}"
+        href="{{ route('admin.service_category.edit',['slug' => $category->slug]) }}"
         class="{{ $card_category_style->button_class ?? 'font-weight-bold' }} icon-move-right"
       >
         Editar

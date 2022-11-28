@@ -12,7 +12,4 @@ class ServiceCategoryController extends Controller
   public function show($slug){
     dd($slug);
   }
-  public function edit($slug){
-    dd($slug);
-  }
 }
