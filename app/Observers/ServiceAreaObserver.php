@@ -10,15 +10,18 @@ class ServiceAreaObserver
     $serviceArea->area->update([
       'num_services' => $serviceArea->area->servicesPivot()->count()
     ]);
+    $serviceArea->area->updateCategoriesIncluded();
   }
   public function updated(ServiceArea $serviceArea){
     $serviceArea->area->update([
       'num_services' => $serviceArea->area->servicesPivot()->count()
     ]);
+    $serviceArea->area->updateCategoriesIncluded();
   }
   public function deleted(ServiceArea $serviceArea){
     $serviceArea->area->update([
       'num_services' => $serviceArea->area->servicesPivot()->count()
     ]);
+    $serviceArea->area->updateCategoriesIncluded();
   }
 }

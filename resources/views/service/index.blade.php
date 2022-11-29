@@ -34,14 +34,17 @@
           <div class="carousel-inner">
             @php $category = $categories[0]; @endphp
             <div class="carousel-item active">
-              <div class="page-header min-vh-75 m-3 border-radius-xl"
-                style="background-image: url('{{ $category->service->image }}');">
+              <div
+                class="page-header min-vh-75 m-3 border-radius-xl"
+                style="background-image: url('{{ $category->service->image }}');"
+                onclick="window.location.href = '{{ route('service.show',['slug' => $category->service->slug]) }}'"
+              >
                 <span class="mask bg-gradient-dark"></span>
                 <div class="container">
                   <div class="row">
                     <div class="col-lg-6 my-auto">
-                      <h4 class="text-white mb-0 fadeIn1 fadeInBottom">{{ $category->service->name }}</h4>
-                      <h1 class="text-white fadeIn2 fadeInBottom">{{ $category->name }}</h1>
+                      <h4 class="text-white mb-0 fadeIn1 fadeInBottom">{{ $category->name }}</h4>
+                      <h1 class="text-white fadeIn2 fadeInBottom">{{ $category->service->name }}</h1>
                       <p class="lead text-white opacity-8 fadeIn3 fadeInBottom">
                         {{ $category->service->description }}
                       </p>
@@ -57,7 +60,8 @@
                       'card_category_style' => (object)[
                         'container_class' => 'info-horizontal bg-gradient-primary border-radius-xl py-5 px-4',
                         'text_class' => 'text-white',
-                        'button_class' => 'text-white'
+                        'button_class' => 'text-white',
+                        'button_text' => 'Ver Categoria'
                       ]
                     ])
                   </div>
@@ -65,7 +69,10 @@
                     <div class="col-lg-4 col-md-6 px-sm-1 mt-md-0 mt-4">
                       @include('components.card.category',[
                         'category' => $categories[1],
-                        'card_category_style' => (object)['button_class' => 'text-primary']
+                        'card_category_style' => (object)[
+                          'button_class' => 'text-primary',
+                          'button_text' => 'Ver Categoria'
+                        ]
                       ])
                     </div>
                   @endif
@@ -73,7 +80,10 @@
                     <div class="col-lg-4 mt-lg-0 mt-4">
                       @include('components.card.category',[
                         'category' => $categories[2],
-                        'card_category_style' => (object)['button_class' => 'text-primary']
+                        'card_category_style' => (object)[
+                          'button_class' => 'text-primary',
+                          'button_text' => 'Ver Categoria'
+                        ]
                       ])
                     </div>
                   @endif
@@ -83,14 +93,17 @@
             @if($categories->count() > 1)
               @php $category = $categories[1]; @endphp
               <div class="carousel-item">
-                <div class="page-header min-vh-75 m-3 border-radius-xl"
-                  style="background-image: url('{{ $category->service->image }}');">
+                <div
+                  class="page-header min-vh-75 m-3 border-radius-xl"
+                  style="background-image: url('{{ $category->service->image }}');"
+                  onclick="window.location.href = '{{ route('service.show',['slug' => $category->service->slug]) }}'"
+                >
                   <span class="mask bg-gradient-dark"></span>
                   <div class="container">
                     <div class="row">
                       <div class="col-lg-6 my-auto">
-                        <h4 class="text-white mb-0 fadeIn1 fadeInBottom">{{ $category->service->name }}</h4>
-                        <h1 class="text-white fadeIn2 fadeInBottom">{{ $category->name }}</h1>
+                        <h4 class="text-white mb-0 fadeIn1 fadeInBottom">{{ $category->name }}</h4>
+                        <h1 class="text-white fadeIn2 fadeInBottom">{{ $category->service->name }}</h1>
                         <p class="lead text-white opacity-8 fadeIn3 fadeInBottom">
                           {{ $category->description}}
                         </p>
@@ -103,7 +116,10 @@
                     <div class="col-lg-4 col-md-6">
                       @include('components.card.category',[
                         'category' => $categories[0],
-                        'card_category_style' => (object)['button_class' => 'text-dark']
+                        'card_category_style' => (object)[
+                          'button_class' => 'text-dark',
+                          'button_text' => 'Ver Categoria'
+                        ]
                       ])
                     </div>
                     @if($categories->count() > 1)
@@ -113,7 +129,8 @@
                           'card_category_style' => (object)[
                             'container_class' => 'info-horizontal bg-gradient-info border-radius-xl py-5 px-4',
                             'text_class' => 'text-white',
-                            'button_class' => 'text-white'
+                            'button_class' => 'text-white',
+                            'button_text' => 'Ver Categoria'
                           ]
                         ])
                       </div>
@@ -122,7 +139,10 @@
                       <div class="col-lg-4 mt-lg-0 mt-4">
                         @include('components.card.category',[
                           'category' => $categories[2],
-                          'card_category_style' => (object)['button_class' => 'text-dark']
+                          'card_category_style' => (object)[
+                            'button_class' => 'text-dark',
+                            'button_text' => 'Ver Categoria'
+                          ]
                         ])
                       </div>
                     @endif
@@ -136,13 +156,14 @@
                 <div
                   class="page-header min-vh-75 m-3 border-radius-xl"
                   style="background-image: url('{{ $category->service->image }}');"
+                  onclick="window.location.href = '{{ route('service.show',['slug' => $category->service->slug]) }}'"
                 >
                   <span class="mask bg-gradient-dark"></span>
                   <div class="container">
                     <div class="row">
                       <div class="col-lg-6 my-auto">
-                        <h4 class="text-white mb-0 fadeIn1 fadeInBottom">{{ $category->service->name }}</h4>
-                        <h1 class="text-white fadeIn2 fadeInBottom">{{ $category->name }}</h1>
+                        <h4 class="text-white mb-0 fadeIn1 fadeInBottom">{{ $category->name }}</h4>
+                        <h1 class="text-white fadeIn2 fadeInBottom">{{ $category->service->name }}</h1>
                         <p class="lead text-white opacity-8 fadeIn3 fadeInBottom">
                           {{ $category->service->description }}
                         </p>
@@ -155,14 +176,20 @@
                     <div class="col-lg-4 col-md-6">
                       @include('components.card.category',[
                         'category' => $categories[0],
-                        'card_category_style' => (object)['button_class' => 'text-dark']
+                        'card_category_style' => (object)[
+                          'button_class' => 'text-dark',
+                          'button_text' => 'Ver Categoria'
+                        ]
                       ])
                     </div>
                     @if($categories->count() > 1)
                       <div class="col-lg-4 col-md-6 px-sm-1 mt-md-0 mt-4">
                         @include('components.card.category',[
                           'category' => $categories[1],
-                          'card_category_style' => (object)['button_class' => 'text-dark']
+                          'card_category_style' => (object)[
+                            'button_class' => 'text-dark',
+                            'button_text' => 'Ver Categoria'
+                          ]
                         ])
                       </div>
                     @endif
@@ -173,7 +200,8 @@
                           'card_category_style' => (object)[
                             'container_Class' => 'info-horizontal bg-gradient-danger border-radius-xl py-5 px-4',
                             'text_class' => 'text-white',
-                            'button_class' => 'text-white'
+                            'button_class' => 'text-white',
+                            'button_text' => 'Ver Categoria'
                           ]
                         ])
                       </div>

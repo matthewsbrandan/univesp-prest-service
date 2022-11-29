@@ -3,39 +3,31 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Carbon\Carbon;
 
 use App\Models\Work;
 
 class HomeController extends Controller
 {
   public function index(){
-    $now = Carbon::now();
-    $month = $now->format('m');
-    $year = $now->format('Y');
-
-    $query = Work::whereStatus('requested');
-    $works = $query->get();
-    $requestedInThisMonth = $query->whereMonth('created_at', $month)
-      ->whereYear('created_at', $year)
-      ->count();
-
-
-    $query = Work::whereStatus('ended');
-    $finalizedWorks = $query->get();
-    $finalizedInThisMonth = $query->whereMonth('created_at', $month)
-      ->whereYear('created_at', $year)
-      ->count();
-
-    return view('home.index',[
-      'works' => $works,
-      'finalizedWorks' => $finalizedWorks,
-      'requestedInThisMonth' => $requestedInThisMonth,
-      'finalizedInThisMonth' => $finalizedInThisMonth
-    ]);
+    $data = WorkController::getResume();
+    if(!$data->result) return $this->sweet(
+      redirect()->back(),
+      'Houve um erro ao carregar os dados da página Home',
+      'error',
+      'Home'
+    );
+    $params = $data->response; /* @return
+      [
+        'works' => $works,
+        'finalizedWorks' => $finalizedWorks,
+        'requestedInThisMonth' => $requestedInThisMonth,
+        'finalizedInThisMonth' => $finalizedInThisMonth
+      ]
+    */
+    return view('home.index', $params);
   }
   public function welcome(){
-    $areas = AreaController::getAreas();
+    $areas = AreaController::getAreas(0, null);
 
     return view('welcome.index',[
       'areas' => $areas

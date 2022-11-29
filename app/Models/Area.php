@@ -88,6 +88,21 @@ class Area extends Model
     if(!auth()->user()) return false;
     return !!UserArea::whereUserId(auth()->user()->id)->whereAreaId($this->id)->first();
   }
+  public function updateCategoriesIncluded(){
+    $area = $this;
+    $services = $area->services()->get();
+
+    $categories_slug = [];
+    foreach($services as $service){
+      if(!$service->service_category) continue;
+
+      if(!in_array($service->service_category->slug, $categories_slug)) $categories_slug[]= $service->service_category->slug;
+    }
+
+    Area::whereId($area->id)->update([
+      'categories_included' => implode(',',$categories_slug)
+    ]);
+  }
   public static function generateSlug($name){
     $slug = Controller::generateSlug($name);
     $append = '';

@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\Area;
-use App\Models\Work;
 use App\Models\Service;
 use App\Models\ServiceArea;
 use App\Models\ServiceCategory;
@@ -104,7 +103,30 @@ class ServiceController extends Controller
     return $json ? response()->json($data) : (object) $data;
   }
   public function show($slug){
-    dd('slug');
+    if(!$service = Service::whereSlug($slug)->first()) return $this->sweet(
+      redirect()->back(),
+      'Serviço não encontrado',
+      'error',
+      'Detalhes do Serviço'
+    );
+
+    $data = WorkController::getResume([
+      'service_id' => $service->id
+    ]);
+
+    if(!$data->result) return $this->sweet(
+      redirect()->back(),
+      'Houve um erro ao carregar os dados do Serviço',
+      'error',
+      'Serviço'
+    );
+
+    $params = $data->response;
+
+    return view('service.show', $params + [
+      'service' => $service,
+
+    ]);
   }
   public function create(){
     $categories = ServiceCategory::get();

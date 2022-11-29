@@ -70,6 +70,12 @@ Route::middleware(['auth'])->group(function(){
     Route::get('historico', [WorkController::class, 'index'])->name('index');
   });
 
+  Route::name('post_service.')->group(function(){
+    Route::post('/publicacao-de-servico/salvar', 'PostServiceController@store')->name('store');
+    Route::get('/publicacao-de-servico/excluir/{id}', 'PostServiceController@delete')->name('delete');
+    Route::get('/publicacoes-de-servico/{user_id}/{$skip?}', 'PostServiceController@show')->name('show');
+  });
+
   Route::middleware(['admin'])->name('admin.')->group(function(){
     Route::name('service_category.')->group(function(){
       Route::get('gerenciar/categorias', [AdminServiceCategoryController::class, 'index'])->name('index');

@@ -1,12 +1,8 @@
 @php
   $head_title = 'Condomínio: ' . $area->name;
   $body_class = 'g-sidenav-show bg-gray-200';
-  $plugins = ['cropper'];
 @endphp
 @extends('layout.app')
-@section('head')
-  <style> .nav-pills .moving-tab{ display: none; } </style>
-@endsection
 @section('content')
   @include('layout.aside',['aside_options' => (object)[
     'active' => 'dashboard'
@@ -31,7 +27,7 @@
           <div class="d-flex justify-content-between align-items-center">
             <div>
               <h5 class="mb-1">
-                {{ $area->name }}
+                Condomínio: {{ $area->name }}
               </h5>
               <p class="mb-0 font-weight-normal text-sm" style="max-width: 27rem">
                 {{ $area->description }}
@@ -61,6 +57,25 @@
               Ainda não há nenhum serviço sendo oferecido nesse condomínio.
             </p>
           @else
+            @if($categories->count() > 0)
+              <h4 class="mb-3">Categorias</h4>
+              <div class="mb-4 table-responsive d-flex pb-4 " style="gap: 1rem;">
+                @foreach($categories as $category)
+                  <div
+                    id="service-category-{{ $category->slug }}"
+                    data-name="{{ $category->name }}"
+                    data-slug="{{ $category->slug }}"
+                    data-keywords="{{ implode(',',$category->keywords) }}"
+                    style="min-width: 22rem; width: 22rem;"
+                  >
+                    @include('components.card.category',[
+                      'category' => $category
+                    ])
+                  </div>
+                @endforeach
+              </div>
+            @endif
+            <h4 class="mb-3">Serviços</h4>
             <div class="row">
               @foreach($area->services as $service)
                 @include('components.card.service')

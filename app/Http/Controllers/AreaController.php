@@ -19,9 +19,11 @@ class AreaController extends Controller
     );
 
     $area->loadData(['services']);
+    $categories = $area->getCategoriesIncluded();
 
     return view('area.show',[
-      'area' => $area
+      'area' => $area,
+      'categories' => $categories
     ]);
   }
   public function create(){
@@ -103,12 +105,11 @@ class AreaController extends Controller
     );
   }
   public static function getAreas($skip = 0, $take = 6){
-    return Area::orderByDesc('updated_at')
-      ->skip($skip)
-      ->take($take)
-      ->get()
-      ->map(function($area){
-        return $area->loadData();
-      });
+    $query = Area::orderByDesc('updated_at');
+    if($take != null && $take > 0) $query->skip($skip)->take($take);    
+
+    return $query->get()->map(function($area){
+      return $area->loadData();
+    });
   }
 }

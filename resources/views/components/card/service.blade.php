@@ -11,7 +11,6 @@
       </div>
     </div>
     <div class="card-body px-1 pt-3">
-      <p class="text-gradient text-dark mb-2 text-sm">N serviços • N categorias</p>
       <a href="{{ route('service.show',['slug' => $service->slug]) }}">
         <h5>{{ $service->name }}</h5>
       </a>
