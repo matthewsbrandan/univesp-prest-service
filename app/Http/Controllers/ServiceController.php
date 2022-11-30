@@ -122,10 +122,11 @@ class ServiceController extends Controller
     );
 
     $params = $data->response;
+    $posts = $service->post_services()->orderByDesc('id')->get();
 
     return view('service.show', $params + [
       'service' => $service,
-
+      'posts' => $posts
     ]);
   }
   public function create(){

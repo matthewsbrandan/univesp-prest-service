@@ -1,7 +1,7 @@
 @php
   $head_title = 'Serviço: ' . $service->name;
   $body_class = 'g-sidenav-show bg-gray-200';
-  $plugins = 'quill';
+  $plugins = ['quill'];
 @endphp
 @extends('layout.app')
 @section('head')
@@ -139,101 +139,102 @@
         <div class="row">
           {{-- BEGIN:: CONTAINER POSTS --}}
           <div class="col-md-8 mb-md-0 mb-4">
-            <div class="card card-body my-4">
-              @if(auth()->user()->id == $service->user_id)
-                <div id="card-publish">
-                  <div class="card mb-3">
-                    <div class="card-header" style="padding-bottom: 0;">
-                      <div id="div-what-do-you-think">
-                        <div class="d-flex align-items-center justify-content-between border rounded-3">
-                          <p
-                            class="text-muted mb-0 p-3"
-                            onclick="handleToggleWhatDoYouThink()"
-                            style="flex: 1;"
-                          >No que está pensando?</p>
-                          <div class="p-3">
-                            <label
-                              class="px-1 m-0 button-image-postservice" style="font-size: 1rem;"
-                              onclick="handleSelectOrRemoveImage()"
-                            >
-                              <i class="ni ni-image" style="vertical-align: middle;"></i>
-                            </label>
-                            <label
-                              class="px-1 m-0 button-video-postservice" style="font-size: 1rem;"
-                              onclick="handleShowInputVideo()"
-                            >
-                              <i class="fa fa-film" style="vertical-align: middle;"></i>
-                            </label>
-                          </div>
+            {{-- BEGIN:: WHAT DO YOU THINK ? --}}
+            @if(auth()->user()->id == $service->user_id)
+              <div id="card-publish">
+                <div class="card mb-3 mt-4">
+                  <div class="card-header" style="padding-bottom: 0;">
+                    <div id="div-what-do-you-think">
+                      <div class="d-flex align-items-center justify-content-between border rounded-3">
+                        <p
+                          class="text-muted mb-0 p-3"
+                          onclick="handleToggleWhatDoYouThink()"
+                          style="flex: 1;"
+                        >No que está pensando?</p>
+                        <div class="p-3">
+                          <label
+                            class="px-1 m-0 button-image-postservice" style="font-size: 1rem;"
+                            onclick="handleSelectOrRemoveImage()"
+                          >
+                            <i class="ni ni-image" style="vertical-align: middle;"></i>
+                          </label>
+                          <label
+                            class="px-1 m-0 button-video-postservice" style="font-size: 1rem;"
+                            onclick="handleShowInputVideo()"
+                          >
+                            <i class="fa fa-film" style="vertical-align: middle;"></i>
+                          </label>
                         </div>
                       </div>
                     </div>
-                    <div class="card-body" style="padding-top: 0;">
-                      <form
-                        method="post"
-                        action="{{ route('post_service.store') }}"
-                        enctype="multipart/form-data"
-                        class="collapse-postservice"
-                        onsubmit="return submitLoad();"
-                        style="display: none;"
-                        id="form-postservice"
-                      >
-                        {{ csrf_field() }}
-                        <input type="hidden" name="id" id="postservice-id"/>
-                        <input type="hidden" name="content" id="postservice-content"/>
-                        <div class="row">
-                          <div class="col-12 mb-5 mt-2">
-                            <div id="editor"></div>
-                          </div>
-                          <div class="col-12" id="mirror_upload_image" style="display: none;">
-                            <img
-                              src=""
-                              class="img-fluid border-radius-lg shadow-lg w-100"
-                              onclick="callModalFullScreen($(this)[0].outerHTML)"
-                              data-bs-toggle="tooltip" data-bs-placement="top" 
-                              data-bs-original-title="Clique para expandir"
-                            />
-                          </div>
-                          <div class="col-12" id="mirror_video" style="display: none;">
-                            <iframe 
-                              width="100%"
-                              style="min-height: 15rem;"
-                              src=""
-                              title="YouTube video player"
-                              frameborder="0"
-                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                              allowfullscreen
-                              class="d-block shadow-xl border-radius-xl"
-                            ></iframe>
-                            <input type="hidden" name="video_url"/>
-                          </div>
+                  </div>
+                  <div class="card-body" style="padding-top: 0;">
+                    <form
+                      method="post"
+                      action="{{ route('post_service.store') }}"
+                      enctype="multipart/form-data"
+                      class="collapse-postservice"
+                      onsubmit="return submitLoad();"
+                      style="display: none;"
+                      id="form-postservice"
+                    >
+                      {{ csrf_field() }}
+                      <input type="hidden" name="id" id="postservice-id"/>
+                      <input type="hidden" name="content" id="postservice-content"/>
+                      <div class="row">
+                        <div class="col-12 mb-5 mt-2">
+                          <div id="editor"></div>
                         </div>
-                        <div class="button-row d-flex justify-content-between mt-4">
-                          <input
-                            type="file"
-                            accept="image/*"
-                            name="image"
-                            id="upload_image"
-                            style="display:none"
-                            onchange="handlePublicationImage(event)"
+                        <div class="col-12" id="mirror_upload_image" style="display: none;">
+                          <img
+                            src=""
+                            class="img-fluid border-radius-lg shadow-lg w-100"
+                            onclick="callModalFullScreen($(this)[0].outerHTML)"
+                            data-bs-toggle="tooltip" data-bs-placement="top" 
+                            data-bs-original-title="Clique para expandir"
                           />
-                          <input type="hidden" name="image_name" id="upload_image_name"/>
-                          <div>
-                            <button
-                              class="btn bg-gradient-secondary mb-0"
-                              type="button"
-                              title="Cancelar"
-                              onclick="handleCancelPublication()"
-                            >Cancelar</button>
-                            <button class="btn bg-gradient-primary mb-0" type="submit" title="Publicar">Publicar</button>
-                          </div>
                         </div>
-                      </form>
-                    </div>
+                        <div class="col-12" id="mirror_video" style="display: none;">
+                          <iframe 
+                            width="100%"
+                            style="min-height: 15rem;"
+                            src=""
+                            title="YouTube video player"
+                            frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen
+                            class="d-block shadow-xl border-radius-xl"
+                          ></iframe>
+                          <input type="hidden" name="video_url"/>
+                        </div>
+                      </div>
+                      <div class="button-row d-flex justify-content-between mt-4">
+                        <input
+                          type="file"
+                          accept="image/*"
+                          name="image"
+                          id="upload_image"
+                          style="display:none"
+                          onchange="handlePublicationImage(event)"
+                        />
+                        <input type="hidden" name="image_name" id="upload_image_name"/>
+                        <div>
+                          <button
+                            class="btn bg-gradient-secondary mb-0"
+                            type="button"
+                            title="Cancelar"
+                            onclick="handleCancelPublication()"
+                          >Cancelar</button>
+                          <button class="btn bg-gradient-primary mb-0" type="submit" title="Publicar">Publicar</button>
+                        </div>
+                      </div>
+                    </form>
                   </div>
                 </div>
-              @endif
-
+              </div>
+            @endif
+            {{-- END:: WHAT DO YOU THINK ? --}}
+            <div class="card card-body my-4 pt-4">
               @foreach($posts as $post)
                 <div class="card mb-3 container-postservice-item" id="post-{{ $post->slug }}">
                   <div class="card-header d-flex align-items-center border-bottom py-3">
@@ -263,7 +264,7 @@
                             </small>
                           @endif
                         </div>
-                        @if(auth()->user()->id == $user->id)
+                        @if(auth()->user()->id == $service->user_id)
                           <div class="ms-auto" style="margin-right: -1rem;">
                             <div class="dropdown">
                               <button class="btn btn-link text-secondary ps-0 pe-2 mb-0" id="dropdown-post-{{$post->id}}" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -343,9 +344,9 @@
               @endforeach
               @if($posts->count() == 0)
                 <p class="text-muted text-center text-sm">
-                  @if(auth()->user()->id == $user->id)
+                  @if(auth()->user()->id == $service->user_id)
                     Você ainda não possui nenhuma publicação
-                  @else {{ $user->name }} não possui nenhuma publicação @endif  
+                  @else {{ $service->name }} não possui nenhuma publicação @endif
                 </p>
               @endif
             </div>
@@ -373,7 +374,7 @@
       ]])
       @include('utils.modals.fullscreen')
       @if(auth()->user()->id == $service->user_id)
-        @include('components.modal-gallery',[
+        @include('utils.modals.gallery',[
           'gallery_active' => 'postservices',
           'gallery_add_fn' => 'handleAddNewImage()',
           'gallery_fn' => 'selectItemGallery($(this))'
