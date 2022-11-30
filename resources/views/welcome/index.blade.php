@@ -75,32 +75,35 @@
           <div class="card card-body d-flex justify-content-center shadow-lg p-sm-5 blur align-items-center">
             <h3 class="text-center">Quer cadastrar seu condomínio?</h3>
             <p>Se você deseja que seu condomínio esteja em nossa plataforma, entre em contato conosco para validarmos os dados e te ajudar a conhecer esse lado da plataforma.</p>
-            <form id="contact-form" method="post" autocomplete="off">
+            <form id="form-contact" autocomplete="off">
               <div class="card-body">
                 <div class="mb-4">
-                  <label>Email</label>
+                  <label for="contact-email">Email</label>
                   <div class="input-group">
                     <input
                       type="email"
+                      id="contact-email"
                       class="form-control"
                       placeholder="..."
                       onfocus="focused(this)" onfocusout="defocused(this)"
+                      required
                     />
                   </div>
                 </div>
                 <div class="form-group mb-4">
-                  <label>Mensagem</label>
+                  <label for="contact-message">Mensagem</label>
                   <textarea
                     name="message"
                     class="form-control"
-                    id="message"
+                    id="contact-message"
                     rows="4"
+                    required
                   ></textarea>
                 </div>
                 <div class="row">
                   <div class="col-md-12">
                     <div class="form-check form-switch mb-4">
-                      <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" checked="">
+                      <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" checked="" required>
                       <label class="form-check-label" for="flexSwitchCheckDefault">
                         Eu aceito os <a
                           href="javascript:;"
@@ -110,7 +113,7 @@
                     </div>
                   </div>
                   <div class="col-md-12">
-                    <button type="submit" class="btn bg-gradient-dark w-100">Send Message</button>
+                    <button type="submit" class="btn bg-gradient-dark w-100">Enviar Mensagem</button>
                   </div>
                 </div>
               </div>
@@ -130,6 +133,7 @@
 @endsection
 @section('scripts')
   <script src="{{ asset('assets/js/plugins/chartjs.min.js') }}"></script>
+  {{-- BEGIN:: HANDLE AREA FILTER --}}
   <script>
     $('#form-search-area').on('submit', function(e){
       e.preventDefault();
@@ -155,4 +159,27 @@
     }
     $('#search-area, #search-area-code').on('keyup', () => handleFilterAreas());
   </script>
+  {{-- END:: HANDLE AREA FILTER | BEGIN:: HANDLE SEND CONTACT --}}
+  <script>
+    $(function(){
+      $('#form-contact').on('submit', function(e){
+        e.preventDefault();
+  
+        let email = $('#contact-email').val();
+        let message = $('#contact-message').val();
+  
+        let phone = '5519995446606';
+        
+        let text = `_Contato através do site {{ config('app.name') }}_\n`;
+        text+= `*Email:* ${email}\n\n`;
+        text+= `[Quero cadastrar meu condomínio]\n${message}`;
+        text = encodeURIComponent(text);
+
+        window.location.href = `https://api.whatsapp.com/send?phone=${phone}&text=${text}`;
+  
+        $('#form-contact')[0].reset();
+      })
+    })
+  </script>
+  {{-- END:: HANDLE SEND CONTACT --}}
 @endsection
