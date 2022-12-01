@@ -51,18 +51,39 @@
             <span class="nav-link-text ms-1">Histórico</span>
           </a>
         </li>
-        <?php
-          /*
-            <li class="nav-item">
-              <a class="nav-link text-white " href="../pages/notifications.html">
-                <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                  <i class="material-icons opacity-10">notifications</i>
-                </div>
-                <span class="nav-link-text ms-1">Notificações</span>
-              </a>
-            </li>
-          */
-        ?>
+        @php
+          $manage_services = auth()->user()->services()->count() > 0;
+          $manage_areas = auth()->user()->areas()->count() > 0;
+        @endphp
+        @if($manage_services || $manage_areas)
+          <li class="nav-item mt-3">
+            <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Gerenciar</h6>
+          </li>
+        @endif
+        @if($manage_services)
+          <li class="nav-item">
+            <a class="nav-link text-white {{
+              $active == 'manage.service' ? 'active bg-gradient-primary':''
+            }}" href="{{ route('service.index') }}">
+              <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                <i class="material-icons opacity-10">table_view</i>
+              </div>
+              <span class="nav-link-text ms-1">Gerenciar Serviços</span>
+            </a>
+          </li>
+        @endif
+        @if($manage_areas)
+          <li class="nav-item">
+            <a class="nav-link text-white {{
+              $active == 'manage.area' ? 'active bg-gradient-primary':''
+            }}" href="javascript:;">
+              <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                <i class="material-icons opacity-10">table_view</i>
+              </div>
+              <span class="nav-link-text ms-1">Gerenciar Condomínios</span>
+            </a>
+          </li>
+        @endif
         @if(auth()->user() && auth()->user()->hasPermissionTo('admin'))
           @include('layout.aside-admin')
         @endif

@@ -12,7 +12,6 @@ class PostService extends Model
   use HasFactory;
 
   protected $fillable = [
-    'name',
     'slug',
     'content',
     'image',
@@ -35,7 +34,7 @@ class PostService extends Model
   }
   #endregion RELATIONSHIP
   public function getImage(){
-    return asset($this->image);
+    return $this->image ? asset($this->image) : null;
   }
   public function getUsersLike($in_array_format = false){
     return json_decode($this->users_like, $in_array_format);
@@ -45,7 +44,7 @@ class PostService extends Model
   }
   public function getContentWithLinks(){
     $string = $this->content;
-    $url = Publication::getLinksInContent($string);
+    $url = self::getLinksInContent($string);
   
     // Loop through all matches
     foreach($url as $newLinks){
@@ -80,6 +79,11 @@ class PostService extends Model
       'edited' => $edited
     ];
     return $data;
+  }
+  public function loadData(){
+    $post = $this;
+    $post->image_formatted = $post->getImage();
+    return $post;
   }
   #region STATIC FUNCTIONS
   public static function getLinksInContent($string){

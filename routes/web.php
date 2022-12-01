@@ -9,6 +9,7 @@ use App\Http\Controllers\WorkController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\UserAreaController;
+use App\Http\Controllers\PostServiceController;
 use App\Http\Controllers\ServiceCategoryController;
 
 use App\Http\Controllers\Auth\LoginController;
@@ -71,9 +72,9 @@ Route::middleware(['auth'])->group(function(){
   });
 
   Route::name('post_service.')->group(function(){
-    Route::post('/publicacao-de-servico/salvar', 'PostServiceController@store')->name('store');
-    Route::get('/publicacao-de-servico/excluir/{id}', 'PostServiceController@delete')->name('delete');
-    Route::get('/publicacoes-de-servico/{user_id}/{$skip?}', 'PostServiceController@show')->name('show');
+    Route::post('/publicacao-de-servico/salvar', [PostServiceController::class, 'store'])->name('store');
+    Route::get('/publicacao-de-servico/excluir/{id}', [PostServiceController::class, 'delete'])->name('delete');
+    Route::get('/publicacoes-de-servico/{user_id}/{$skip?}', [PostServiceController::class, 'show'])->name('show');
   });
 
   Route::middleware(['admin'])->name('admin.')->group(function(){

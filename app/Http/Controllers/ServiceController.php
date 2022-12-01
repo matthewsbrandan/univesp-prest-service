@@ -43,7 +43,7 @@ class ServiceController extends Controller
     });
 
     $exclude_ids = [];
-    foreach($categories as $category) $exclude_ids[] = $category->service_id;
+    foreach($categories as $category) $exclude_ids[] = $category->service->id;
 
     $outherCategories = ServiceCategory::whereNotIn('id', array_column(
       $categories->toArray()
@@ -122,7 +122,9 @@ class ServiceController extends Controller
     );
 
     $params = $data->response;
-    $posts = $service->post_services()->orderByDesc('id')->get();
+    $posts = $service->post_services()->orderByDesc('id')->get()->map(function($post){
+      return $post->loadData();
+    });
 
     return view('service.show', $params + [
       'service' => $service,

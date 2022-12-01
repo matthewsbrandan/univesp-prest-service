@@ -1,7 +1,7 @@
 @php
   $head_title = 'Serviço: ' . $service->name;
   $body_class = 'g-sidenav-show bg-gray-200';
-  $plugins = ['quill'];
+  $plugins = ['quill', 'confirm'];
 @endphp
 @extends('layout.app')
 @section('head')
@@ -180,6 +180,7 @@
                     >
                       {{ csrf_field() }}
                       <input type="hidden" name="id" id="postservice-id"/>
+                      <input type="hidden" name="service_id" value="{{ $service->id }}"/>
                       <input type="hidden" name="content" id="postservice-content"/>
                       <div class="row">
                         <div class="col-12 mb-5 mt-2">
@@ -234,17 +235,17 @@
               </div>
             @endif
             {{-- END:: WHAT DO YOU THINK ? --}}
-            <div class="card card-body my-4 pt-4">
+            <div class="my-4">
               @foreach($posts as $post)
                 <div class="card mb-3 container-postservice-item" id="post-{{ $post->slug }}">
                   <div class="card-header d-flex align-items-center border-bottom py-3">
                     <div class="d-flex align-items-center" style="flex: 1;">
-                      <a href="{{ route('user.profile',['username' => $post->user->username])}}">
-                        <img src="{{ $post->user->profile_formatted }}" class="avatar" alt="profile-image">
+                      <a href="javascript:;">
+                        <img src="{{ $post->service->image }}" class="avatar" alt="profile-image">
                       </a>
                       <div class="mx-3 d-flex align-items-center justify-content-between" style="flex: 1;">
                         <div>
-                          <a href="{{ route('user.profile',['username' => $post->user->username])}}" class="text-dark font-weight-600 text-sm">
+                          <a href="javascript:;" class="text-dark font-weight-600 text-sm">
                             {{ $post->user->name }}
                           </a>
                           
@@ -279,7 +280,7 @@
                                 <button
                                   class="dropdown-item"
                                   type="button"
-                                  onclick="callModalConfirm('Tem certeza que deseja excluir esta publicação?','{{ route('postservice.delete',['id' => $post->id]) }}')"
+                                  onclick="callModalConfirm('Tem certeza que deseja excluir esta publicação?','{{ route('post_service.delete',['id' => $post->id]) }}')"
                                 >Excluir</button>
                               </div>
                             </div>
@@ -324,30 +325,15 @@
                     @endif
                   </div>
                 </div>
-                @php $countPosts++; @endphp
-                @if($countPosts == $intervalAdInMobile)
-                  @if($advertisements->count() > $indexAd)
-                    @include('user.profile.partials.card-ad',[
-                      'ad' => $advertisements[$indexAd],
-                      'ad_container_class' => 'card mb-3 d-lg-none'
-                    ])
-                  @elseif($advertisements->count() == $indexAd)
-                    @include('user.profile.partials.card-ad-chatinger',[
-                      'ad_container_class' => 'card mb-3 d-lg-none'
-                    ])
-                  @else @continue @endif
-                  @php
-                    $indexAd++;
-                    $countPosts = 0;
-                  @endphp
-                @endif
               @endforeach
               @if($posts->count() == 0)
-                <p class="text-muted text-center text-sm">
-                  @if(auth()->user()->id == $service->user_id)
-                    Você ainda não possui nenhuma publicação
-                  @else {{ $service->name }} não possui nenhuma publicação @endif
-                </p>
+                <div class="card card-body mt-4">
+                  <p class="text-muted text-center text-sm">
+                    @if(auth()->user()->id == $service->user_id)
+                      Você ainda não possui nenhuma publicação
+                    @else {{ $service->name }} não possui nenhuma publicação @endif
+                  </p>
+                </div>
               @endif
             </div>
           </div>

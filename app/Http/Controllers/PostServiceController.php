@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+
+use App\Models\Service;
 use App\Models\PostService;
 
 use App\Services\UrlPreviewerService;
@@ -21,7 +23,6 @@ class PostServiceController extends Controller
       'error',
       'Publicação'
     );
-
     $id = null;
     if(isset($request->image_name) && isset($request->video_url)) return $this->sweet(
       redirect()->back(),
@@ -29,6 +30,19 @@ class PostServiceController extends Controller
       'error',
       'Publicação'
     );
+
+    $service = null;
+    if($request->service_id) $service = Service::whereId($request->service_id)->whereUserId(
+      auth()->user()->id
+    )->first();
+
+    if(!$service) return $this->sweet(
+      redirect()->back(),
+      'Serviço não encontrado ou você não tem permissão para essa ação',
+      'error',
+      'Publicação'
+    );
+
     if($request->id){
       $id = $request->id;
       if(!PostService::whereId($id)->whereUserId(auth()->user()->id)->first()) return $this->sweet(
@@ -38,7 +52,7 @@ class PostServiceController extends Controller
         'Publicação'
       );
     }
-    $data = [];
+    $data = ['service_id' => $service->id];
     if($request->content && !!strip_tags($request->content)){
       $data+= ['content' => $request->content];
       if($linkPreviewExists = $this->handleLinkForPreviewInContentIfExists(
@@ -98,18 +112,6 @@ class PostServiceController extends Controller
       'id' => $id
     ],$data);
 
-    #region HANDLE LOG
-    Log::register(
-      $id ? 'updated_publication' : 'stored_publication',
-      auth()->user()->id,[
-        'details' => $id ?
-          'Você atualizou uma publicação':'Você adicionou uma nova publicação',
-        'action' => route('service.show', ['slug' => $service->slug]) . '#post-' .$publication->slug,
-        'action_name' => 'Ver publicação'
-      ],
-      $publication->id
-    );
-    #endregion HANDLE LOG
     return $this->toast(
       redirect(route('service.show', ['slug' => $service->slug]) . '#post-' . $publication->slug),
       $id ? 'Publicação editada com sucesso' : 'Publicação adicionada com sucesso',
@@ -119,45 +121,53 @@ class PostServiceController extends Controller
   }
   public function show($user_id, $skip = 0, $json = true){
     if($user = User::whereId($user_id)->first()){
-        $posts = $user->publications()
-            ->with('user')
-            ->orderBy('created_at','desc')
-            ->skip($skip)
-            ->take(20)
-            ->get();
-                
-        $data = $posts->map(function($post){
-            $post->user->profile_formatted = $post->user->getProfile();
-            $post->date_formatted = $post->getDateFormatted('created_at');
-            $post->date_completed = $post->getDateFormatted('completed');
-            $post->image_formatted = $post->getImage();
-            return $post;
-        });
+      $posts = $user->publications()
+        ->with('user')
+        ->orderBy('created_at','desc')
+        ->skip($skip)
+        ->take(20)
+        ->get();
+              
+      $data = $posts->map(function($post){
+        $post->service->image_formatted = $post->service->getProfile();
+        $post->date_formatted = $post->getDateFormatted('created_at');
+        $post->date_completed = $post->getDateFormatted('completed');
+        $post->image_formatted = $post->getImage();
+        return $post;
+      });
 
-        $response = [
-            'result' => true,
-            'response' => $data
-        ];
+      $response = [
+        'result' => true,
+        'response' => $data
+      ];
     }
     else $response = [
-        'result' => false,
-        'response' => 'Usuário não encontrado'
+      'result' => false,
+      'response' => 'Usuário não encontrado'
     ];
     
     return $json ? response()->json($response) : (object) $response;
   }
   public function delete($id){
-    $data = PostServiceRepository::delete($id);
-    if(!$data->result) return $this->sweet(
+    if(!$post = PostService::whereId($id)->first()) return $this->sweet(
       redirect()->back(),
-      $data->response,
+      'Post não encontrado',
+      'error',
+      'Excluir Publicação'
+    );
+    $service = $post->service;
+    if($service->user_id != auth()->user()->id) return $this->sweet(
+      redirect()->back(),
+      'Você não ter permissão para excluir essa publicação',
       'error',
       'Excluir Publicação'
     );
 
+    $post->delete();
+    
     return $this->toast(
       redirect()->route('service.show', ['slug' => $service->slug]),
-      $data->response,
+      'Post excluído com sucesso',
       'success',
       'Excluir Publicação'
     );
