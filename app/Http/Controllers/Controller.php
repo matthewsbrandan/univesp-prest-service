@@ -216,6 +216,11 @@ class Controller extends BaseController
     }
   }
   public static function handleImageRules($image){
+    return (object)[
+      'result' => true,
+      'response' => 'Regras de imagem suspensas'
+    ];
+
     /* TYPES RETURNED
       01	IMAGETYPE_GIF
       02	IMAGETYPE_JPEG

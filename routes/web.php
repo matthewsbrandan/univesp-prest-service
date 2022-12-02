@@ -69,6 +69,11 @@ Route::middleware(['auth'])->group(function(){
   
   Route::name('work.')->group(function(){
     Route::get('historico', [WorkController::class, 'index'])->name('index');
+    Route::get('pedidos', [WorkController::class, 'order'])->name('order');
+    Route::get('pedido/{order}', [WorkController::class, 'show'])->name('show');
+
+    Route::post('/servico/solicitar', [WorkController::class, 'request'])->name('request');
+    Route::post('/servico/aceitar', [WorkController::class, 'accept'])->name('accept');
   });
 
   Route::name('post_service.')->group(function(){

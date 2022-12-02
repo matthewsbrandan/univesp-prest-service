@@ -5,15 +5,18 @@
       <div class="option_radio">
         <div class="card-body px-0 pt-4">
           <ul class="list-group" id="ul-addresses">
-            @if(isset($service) && isset($service->addresses))
-              @foreach($service->addresses as $i => $address)
+            @if(isset($service) && 
+              isset($service->instructions) && 
+              isset($service->instructions->addresses)
+            )
+              @foreach($service->instructions->addresses as $i => $address)
                 <li class="list-group-item border-0 d-flex p-4 pe-3 mb-2 mt-3 bg-gray-100 border-radius-lg">
                   <div class="d-flex align-items-center justify-content-between w-100">
                     <div class="d-flex flex-column">
                       @if($address->destiny)
                         <h6 class="mb-3 text-sm">{{ $address->destiny }}</h6>
                       @endif
-                      <span class="mb-2 text-xs">Endereço: <span class="text-dark ms-sm-2 font-weight-bold">{!! $address->getAddress(true) !!}</span></span>
+                      <span class="mb-2 text-xs">Endereço: <span class="text-dark ms-sm-2 font-weight-bold">{!! $service->getAddress($address) !!}</span></span>
                       <span class="text-xs">CEP: <span class="text-dark ms-sm-2 font-weight-bold">{{ $address->code }}</span></span>
                     </div>
                     <button

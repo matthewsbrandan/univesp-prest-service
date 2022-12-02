@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
+use Exception;
 
 class Work extends Model
 {
@@ -45,5 +47,22 @@ class Work extends Model
     ];
 
     return $formatted_status[$this->status] ?? null;
+  }
+  public function makeUniqueOrder(){
+    $order = null;
+    $limit = 0;
+    do{
+      $order = strtolower(Str::random(8));
+      $limit++;
+      if($limit >= 10) return (object)[
+        'result' => false,
+        'response' => 'Não foi possível gerar um número de ordem único'
+      ];
+    }while(Work::whereOrder($order)->first());
+  
+    return (object)[
+      'result' => !!$order,
+      'response' => $order ? $order : 'Houve um erro ao tentar gerar um número de ordem único'
+    ];
   }
 }

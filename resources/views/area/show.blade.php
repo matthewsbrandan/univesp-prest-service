@@ -1,7 +1,13 @@
 @php
   $head_title = 'Condomínio: ' . $area->name;
   $body_class = 'g-sidenav-show bg-gray-200';
+  if(!function_exists('handlePlural')){
+    function handlePlural($value, $sigular, $plural){
+      return $value == 1 ? $sigular : $plural;
+    }
+  }
 @endphp
+  
 @extends('layout.app')
 @section('content')
   @include('layout.aside',['aside_options' => (object)[
@@ -29,9 +35,14 @@
               <h5 class="mb-1">
                 Condomínio: {{ $area->name }}
               </h5>
-              <p class="mb-0 font-weight-normal text-sm" style="max-width: 27rem">
+              <p class="mb-2 font-weight-normal text-sm" style="max-width: 27rem">
                 {{ $area->description }}
               </p>
+              <span class="badge badge-white border text-dark">CEP: {{ $area->code }}</span>
+              <span class="badge badge-white border text-dark">
+                {{ $area->num_services . handlePlural($area->num_services, ' serviço', ' serviços') }} • 
+                {{ $area->countCategoriesIncluded() . handlePlural($area->countCategoriesIncluded(), ' categoria', ' categorias') }}
+              </span>
             </div>
             @if(!$area->i_am_vinculed)
               <a

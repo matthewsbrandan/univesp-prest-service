@@ -26,9 +26,7 @@
               </div>
             </div>
             <div class="card-body px-1 pt-3 pb-0">
-              <p class="text-gradient text-dark mb-2 text-sm">
-                CEP: {{ $area->code }}
-              </p>
+              <span class="badge badge-white border mb-2 text-dark text-xs py-1">CEP: {{ $area->code }}</span>
               <h5>{{ $area->name }}</h5>
             </div>
           </div>

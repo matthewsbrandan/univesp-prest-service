@@ -50,9 +50,45 @@ class Service extends Model
   public function getImageWithoutAsset($default = null){
     return $this->image ? str_replace(asset(''), $this->image, '') : $default;
   }
+  public function getContactsAttribute($value){
+    return json_decode($value);
+  }
+  public function getInstructionsAttribute($value){
+    $instructions = json_decode($value);
+    if($instructions->addresses) $instructions->addresses = json_decode(
+      $instructions->addresses
+    );
+    return $instructions;
+  }
+  public function getAddress($address){
+    $addr = $address->street .', '. $address->number .' - '. $address->district .'.<br/>'.
+      $address->city .', '. $address->state .'.<br/>';
+    if($address->complement) $addr.= '<br/>Complemento: '. $address->complement;
+    return $addr;
+  }
+  public function getWhatsappUnformatted($phone){
+    $phone = str_replace(' ','',
+      str_replace('-','',
+        str_replace('(','',
+          str_replace(')','',
+            str_replace('+','',$phone)
+          )
+        )
+      )
+    );
+
+    if(strlen($phone) <= 11) $phone = "55" . $phone;
+    return $phone;
+  }
+  public function getResumeWorks(){
+    return (object)[
+      'processing' => 0,
+      'canceled' => 0,
+      'finished' => 0
+    ];
+  }
   public function loadData(){
     $service = $this;
-
     return $service;
   }
   #region STATIC FUNCTIONS

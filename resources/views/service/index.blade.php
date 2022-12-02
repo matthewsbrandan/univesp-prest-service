@@ -198,7 +198,7 @@
                         @include('components.card.category',[
                           'category' => $categories[2],
                           'card_category_style' => (object)[
-                            'container_Class' => 'info-horizontal bg-gradient-danger border-radius-xl py-5 px-4',
+                            'container_class' => 'info-horizontal bg-gradient-danger border-radius-xl py-5 px-4',
                             'text_class' => 'text-white',
                             'button_class' => 'text-white',
                             'button_text' => 'Ver Categoria'
@@ -249,7 +249,7 @@
                     </div>
                     <div class="col-lg-7 col-md-7 my-sm-auto mt-3 ms-sm-3">
                       <h4>
-                        <a href="javascript:;" class="text-dark">{{ $service->name }}</a>
+                        <a href="{{ route('service.show',['slug' => $service->slug]) }}" class="text-dark">{{ $service->name }}</a>
                       </h4>
                       <p>
                         {{ $service->description }}... <a href="{{ route('service.show',['slug' => $service->slug]) }}"> Mais Detalhes </a>

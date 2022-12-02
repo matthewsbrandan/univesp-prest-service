@@ -18,7 +18,7 @@
       <div class="mb-6" style="min-height: calc(100vh - 9rem);">
         <div class="d-flex align-items-center justify-content-between flex-wrap mb-3">
           @if(auth()->user()->active_area)
-            <span class="me-3">Condomínio: <span class="fw-bold">{{ auth()->user()->active_area->name }}</span></span>
+            <span class="me-3">Condomínio Selecionado: <span class="fw-bold">{{ auth()->user()->active_area->name }}</span></span>
           @endif
           <div>
             <a
@@ -46,7 +46,29 @@
             ])
           </div>
         </div>
-        <!-- END:: SERVICES -->
+        <!-- END:: SERVICES | BEGIN:: ORDERS -->
+        @if(auth()->user()->services()->count() > 0 && 
+        isset($orderWorks) &&
+        isset($orderRequestedInThisMonth) &&
+        isset($orderFinalizedWorks) &&
+        isset($orderFinalizedInThisMonth)
+      )
+          <div class="row mt-4">
+            <div class="col-lg-8 col-md-6 mb-md-0 mb-4">
+              @include('components.card.order-working',[
+                'requestedInThisMonth' => $orderRequestedInThisMonth,
+                'works' => $orderWorks
+              ])
+            </div>
+            <div class="col-lg-4 col-md-6">
+              @include('components.card.order-finalized-work',[
+                'finalizedInThisMonth' => $orderFinalizedInThisMonth,
+                'finalizedWorks' => $orderFinalizedWorks
+              ])
+            </div>
+          </div>
+        @endif
+        {{-- END:: ORDERS --}}
       </div>
       @include('layout.footer')
     </div>

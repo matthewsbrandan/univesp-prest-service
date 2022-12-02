@@ -1,6 +1,10 @@
 @once
   @php
-    function handlePlural($value, $sigular, $plural){ return $value == 1 ? $sigular : $plural; }
+    if(!function_exists('handlePlural')){
+      function handlePlural($value, $sigular, $plural){
+        return $value == 1 ? $sigular : $plural;
+      }
+    }
   @endphp
 @endonce
 @php

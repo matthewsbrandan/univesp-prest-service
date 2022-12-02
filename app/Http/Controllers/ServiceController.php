@@ -110,6 +110,8 @@ class ServiceController extends Controller
       'Detalhes do Serviço'
     );
 
+    $service = $service->loadData();
+
     $data = WorkController::getResume([
       'service_id' => $service->id
     ]);
