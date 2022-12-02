@@ -50,6 +50,12 @@ class User extends Authenticatable
   public function areas(){
     return $this->hasMany(Area::class, 'user_id');
   }
+  public function following(){
+    return $this->belongsToMany(Area::class, 'user_areas', 'user_id');
+  }
+  public function followingPivot(){
+    return $this->hasMany(UserArea::class, 'user_id');
+  }
   public function request_categories(){
     return $this->hasMany(RequestCategory::class, 'user_id');
   }

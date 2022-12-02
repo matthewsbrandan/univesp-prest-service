@@ -44,7 +44,19 @@ class WorkController extends Controller
     ]);
   }
   public function show($order){
-    
+    if(!$work = Work::whereOrder($order)->where(function($condition){
+      return $condition->where('user_id', auth()->user()->id)
+        ->orWhere('provider_id', auth()->user()->id);
+    })->first()) return $this->sweet(
+      redirect()->back(),
+      'Pedido não encontrado, ou você não tem permissão de acessá-lo',
+      'error',
+      'Pedido'
+    );
+
+    return view('work.show',[
+      'work' => $work
+    ]);
   }
   #region JSON FUNCTIONS
   public function request(Request $request){

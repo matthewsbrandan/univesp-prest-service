@@ -134,6 +134,14 @@ class ServiceController extends Controller
     ]);
   }
   public function create(){
+    $areas = auth()->user()->following;
+    if($areas->count() == 0) return $this->sweet(
+      redirect()->route('/'),
+      'Você deve estar vinculado a no mínimo 1 condomínio para poder criar um serviço',
+      'error',
+      'Adicionar Serviço'
+    );
+
     $categories = ServiceCategory::get();
 
     if($categories->count() == 0) return $this->sweet(
@@ -143,7 +151,7 @@ class ServiceController extends Controller
       'Cadastrar Serviço'
     );
 
-    $areas = auth()->user()->areas->map(function($area){
+    $areas = $areas->map(function($area){
       return $area->loadData();
     });
 
