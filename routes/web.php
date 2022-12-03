@@ -18,7 +18,6 @@ use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Admin\AdminServiceCategoryController;
 
 Route::get('/', [HomeController::class, 'welcome'])->name('/');
-Route::get('home', [HomeController::class, 'index'])->name('home');
 
 Route::get('cadastrar-se', [UserController::class, 'register'])->name('register');
 Route::post('cadastrar-se', [UserController::class, 'store'])->name('store');
@@ -34,11 +33,12 @@ Route::name('service.')->group(function(){
 Route::name('service_category.')->group(function(){
   Route::get('categorias', [ServiceCategoryController::class, 'index'])->name('index');
   Route::get('categoria/{slug}', [ServiceCategoryController::class, 'show'])->name('show');
-
   // OUTHERS ADMIN ROUTES
 });
 
 Route::middleware(['auth'])->group(function(){
+  Route::get('home', [HomeController::class, 'index'])->name('home');
+
   Route::name('profile.')->group(function(){
     Route::get('perfil/{username?}', [UserController::class, 'profile'])->name('index');
   });
@@ -99,17 +99,3 @@ Route::middleware(['auth'])->group(function(){
 
   Route::get('sair', [LoginController::class, 'logout'])->name('logout');
 });
-
-Route::view('pages/dashboard','dashboard');
-Route::view('pages/billing', 'billing');
-Route::view('pages/icons', 'icons');
-Route::view('pages/map', 'map');
-Route::view('pages/notifications', 'notifications');
-Route::view('pages/profile', 'profile');
-Route::view('pages/rtl', 'rtl');
-Route::view('pages/sign-in', 'sign-in');
-Route::view('pages/sign-up', 'sign-up');
-Route::view('pages/tables', 'tables');
-Route::view('pages/template', 'template');
-Route::view('pages/typography', 'typography');
-Route::view('pages/virtual-reality', 'virtual-reality');
