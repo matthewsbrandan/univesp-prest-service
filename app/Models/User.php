@@ -90,6 +90,23 @@ class User extends Authenticatable
 
     return $types[$this->type] ?? null;
   }
+  public function getWhatsappUnformatted(){
+    $phone = $this->whatsapp;
+    if(!$phone) return null;
+    
+    $phone = str_replace(' ','',
+      str_replace('-','',
+        str_replace('(','',
+          str_replace(')','',
+            str_replace('+','',$phone)
+          )
+        )
+      )
+    );
+
+    if(strlen($phone) <= 11) $phone = "55" . $phone;
+    return $phone;
+  }
   #endregion GETTERS
   public function hasPermissionTo($scope){
     if($scope == 'admin') return $this->type == 'admin';

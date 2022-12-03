@@ -16,6 +16,7 @@ class Work extends Model
     'description',
     'scheduled_to',
     'status',
+    
     'applicant_rating',
     'provider_rating',
     'applicant_comment',
@@ -36,7 +37,7 @@ class Work extends Model
   public function user(){
     return $this->belongsTo(User::class, 'user_id');
   }
-  #endregion RELATIONSHIP
+  #endregion RELATIONSHIP 
   public function getStatus(){
     $formatted_status = [
       'requested' => 'Solicitado',
@@ -47,8 +48,33 @@ class Work extends Model
     ];
 
     return $formatted_status[$this->status] ?? null;
+  }                          
+  #region VERIFICATIONS IS HAS CAN
+  public function isProvider(){
+    return $this->provider_id == auth()->user()->id;
   }
-  public function makeUniqueOrder(){
+  public function isProcessing(){
+    return in_array($this->status, [
+      'requested',
+      'accepted'
+    ]);
+  }
+  public function isFinished(){
+    return in_array($this->status, [
+      'canceled_by_applicant',
+      'canceled_by_provider',
+      'ended'
+    ]);
+  }
+  public function isCanceled(){
+    return in_array($this->status, [
+      'canceled_by_applicant',
+      'canceled_by_provider'
+    ]);
+  }
+  #endregion VERIFICATIONS IS HAS CAN
+  #region STATIC FUNCTIONS
+  public static function makeUniqueOrder(){
     $order = null;
     $limit = 0;
     do{
@@ -65,4 +91,5 @@ class Work extends Model
       'response' => $order ? $order : 'Houve um erro ao tentar gerar um número de ordem único'
     ];
   }
+  #endregion STATIC FUNCTIONS
 }

@@ -72,8 +72,10 @@ Route::middleware(['auth'])->group(function(){
     Route::get('pedidos', [WorkController::class, 'order'])->name('order');
     Route::get('pedido/{order}', [WorkController::class, 'show'])->name('show');
 
-    Route::post('/servico/solicitar', [WorkController::class, 'request'])->name('request');
-    Route::post('/servico/aceitar', [WorkController::class, 'accept'])->name('accept');
+    Route::post('/pedido/solicitar', [WorkController::class, 'request'])->name('request');
+    Route::post('/pedido/aceitar', [WorkController::class, 'accept'])->name('accept');
+    Route::post('/pedido/cancelar', [WorkController::class, 'cancel'])->name('cancel');
+    Route::post('/pedido/finalizar', [WorkController::class, 'finish'])->name('finish');
   });
 
   Route::name('post_service.')->group(function(){

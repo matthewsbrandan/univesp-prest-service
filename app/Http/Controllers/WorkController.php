@@ -98,7 +98,101 @@ class WorkController extends Controller
     ]);
   }
   public function accept(Request $request){
-    
+    #region VALIDATION
+    if(!$request->service_id || !$request->work_id) return response()->json([
+      'result' => false,
+      'response' => 'Não foi possível identificar o serviço ou o pedido solicitado'
+    ]);
+    if(!$service = Service::whereId($request->service_id)->first()) return response()->json([
+      'result' => false,
+      'response' => 'Serviço não localizado'
+    ]);
+    if(!$work = Work::whereId($request->work_id)->whereProviderId(
+      auth()->user()->id
+    )->first()) return response()->json([
+      'result' => false,
+      'response' => 'Pedido não encontrado ou você não tem permissão para aceitá-lo'
+    ]);
+    if($work->status != 'requested') return response()->json([
+      'result' => false,
+      'response' => 'Não é possível aceitar esse pedido, pois não está com status de [solicitado]. Status atual ' . $work->getStatus()
+    ]);
+    #endregion VALIDATION
+
+    $work->update([
+      'status' => 'accepted'
+    ]);
+
+    return response()->json([
+      'result' => true,
+      'response' => 'Trabalho aceito com sucesso'
+    ]);
+  }
+  public function cancel(Request $request){
+    #region VALIDATION
+    if(!$request->service_id || !$request->work_id) return response()->json([
+      'result' => false,
+      'response' => 'Não foi possível identificar o serviço ou o pedido solicitado'
+    ]);
+    if(!$service = Service::whereId($request->service_id)->first()) return response()->json([
+      'result' => false,
+      'response' => 'Serviço não localizado'
+    ]);
+    if(!$work = Work::whereId($request->work_id)->where(function($condition){
+      return $condition->whereProviderId(
+        auth()->user()->id
+      )->orWhere('user_id',  auth()->user()->id);
+    })->first()) return response()->json([
+      'result' => false,
+      'response' => 'Pedido não encontrado ou você não tem permissão para acessá-lo'
+    ]);
+    if($work->isFinished()) return response()->json([
+      'result' => false,
+      'response' => 'O pedido não pode ser cancelado. Status atual ' . $work->getStatus()
+    ]);
+    #endregion VALIDATION
+
+    $work->update([
+      'status' => $work->isProvider() ? 
+      'canceled_by_provider' :
+      'canceled_by_applicant'
+    ]);
+
+    return response()->json([
+      'result' => true,
+      'response' => 'Trabalho cancelado pelo ' . ( $work->isProvider() ? 'provedor' : 'cliente' )
+    ]);
+  }
+  public function finish(Request $request){
+    #region VALIDATION
+    if(!$request->service_id || !$request->work_id) return response()->json([
+      'result' => false,
+      'response' => 'Não foi possível identificar o serviço ou o pedido solicitado'
+    ]);
+    if(!$service = Service::whereId($request->service_id)->first()) return response()->json([
+      'result' => false,
+      'response' => 'Serviço não localizado'
+    ]);
+    if(!$work = Work::whereId($request->work_id)->where(function($condition){
+      return $condition->whereProviderId(
+        auth()->user()->id
+      )->orWhere('user_id',  auth()->user()->id);
+    })->first()) return response()->json([
+      'result' => false,
+      'response' => 'Pedido não encontrado ou você não tem permissão para acessá-lo'
+    ]);
+    if($work->status != 'accepted') return response()->json([
+      'result' => false,
+      'response' => 'O pedido não pode ser finalizado por que não está no status esperado [aceito]. Status atual ' . $work->getStatus()
+    ]);
+    #endregion VALIDATION
+
+    $work->update(['status' => 'ended']);
+
+    return response()->json([
+      'result' => true,
+      'response' => 'Trabalho finalizado com sucesso'
+    ]);
   }
   #endregion JSON FUNCTIONS
   public static function getResume($params = []){
