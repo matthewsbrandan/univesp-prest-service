@@ -76,22 +76,32 @@
                 @endswitch
               </div>
               <div class="text-center">
+                @if($work->status == 'accepted')
+                  <button
+                    type="button"
+                    class="btn bg-gradient-success mb-0"
+                    onclick="handleEndWork()"
+                  >Finalizar Serviço</button>
+                @endif
                 @if($is_provider)
                  @switch($work->status)
                    @case('requested')
                       <button
                         type="button"
                         class="btn bg-gradient-success mb-0"
+                        onclick="handleAcceptWork()"
                       >Aceitar Serviço</button>
                       <button
                         type="button"
                         class="btn bg-gradient-danger mb-0"
+                        onclick="handleCancelWork()"
                       >Rejeitar Serviço</button>
                       @break
                     @case('accepted')
                       <button
                         type="button"
                         class="btn bg-gradient-danger mb-0"
+                        onclick="handleCancelWork()"
                       >Cancelar Serviço</button>
                       @break
                  @endswitch
@@ -100,6 +110,7 @@
                     <button
                       type="button"
                       class="btn bg-gradient-danger mb-0"
+                      onclick="handleCancelWork()"
                     >Cancelar Serviço</button>
                   @endif
                 @endif
@@ -128,4 +139,77 @@
       ]])
     </div>
   </main>
+@endsection
+@section('scripts')
+  <script>
+    @if($is_provider && $work->status == 'requested')
+      function handleAcceptWork(){
+        let data = {
+          service_id: `{{ $work->service_id }}`,
+          work_id: `{{ $work->id }}`
+        };
+        submitLoad();
+        $.post('{{ route('work.accept') }}', data).done(data => {
+          if(!data.result){
+            alertNotify('danger', data.response);
+            return;
+          }
+
+          alertNotify('success', data.response);
+          alertNotify('info', 'A página irá atualizar em alguns segundos');
+          setTimeout(() => window.location.reload(), 3000);
+        }).fail(err => {
+          alertNotify('danger','Houve um erro inesperado ao tentar executar essa ação');
+          console.error(err);
+        }).always(() => stopLoad());
+
+      }
+    @endif
+    @if(!$work->isFinished())
+      function handleCancelWork(){
+        let data = {
+          service_id: `{{ $work->service_id }}`,
+          work_id: `{{ $work->id }}`
+        };
+        submitLoad();
+        $.post('{{ route('work.cancel') }}', data).done(data => {
+          if(!data.result){
+            alertNotify('danger', data.response);
+            return;
+          }
+
+          alertNotify('success', data.response);
+          alertNotify('info', 'A página irá atualizar em alguns segundos');
+          setTimeout(() => window.location.reload(), 3000);
+        }).fail(err => {
+          alertNotify('danger','Houve um erro inesperado ao tentar executar essa ação');
+          console.error(err);
+        }).always(() => stopLoad());
+
+      }
+    @endif
+    @if($work->status == 'accepted')
+      function handleEndWork(){
+        let data = {
+          service_id: `{{ $work->service_id }}`,
+          work_id: `{{ $work->id }}`
+        };
+        submitLoad();
+        $.post('{{ route('work.finish') }}', data).done(data => {
+          if(!data.result){
+            alertNotify('danger', data.response);
+            return;
+          }
+
+          alertNotify('success', data.response);
+          alertNotify('info', 'A página irá atualizar em alguns segundos');
+          setTimeout(() => window.location.reload(), 3000);
+        }).fail(err => {
+          alertNotify('danger','Houve um erro inesperado ao tentar executar essa ação');
+          console.error(err);
+        }).always(() => stopLoad());
+
+      }
+    @endif
+  </script>
 @endsection

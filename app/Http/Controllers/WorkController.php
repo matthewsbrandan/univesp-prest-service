@@ -216,7 +216,11 @@ class WorkController extends Controller
       ->count();
 
 
-    $query = Work::whereUserId(auth()->user()->id)->whereStatus('ended')->when($service_id, function($condition) use ($service_id){
+    $query = Work::whereUserId(auth()->user()->id)->whereIn('status',[
+      'canceled_by_applicant',
+      'canceled_by_provider',
+      'ended'
+    ])->when($service_id, function($condition) use ($service_id){
       return $condition->where('service_id',$service_id);
     });
     $finalizedWorks = $query->get();
@@ -244,7 +248,11 @@ class WorkController extends Controller
         ->count();
   
   
-      $query = Work::whereProviderId(auth()->user()->id)->whereStatus('ended')->when($service_id, function($condition) use ($service_id){
+      $query = Work::whereProviderId(auth()->user()->id)->whereIn('status',[
+        'canceled_by_applicant',
+        'canceled_by_provider',
+        'ended'
+      ])->when($service_id, function($condition) use ($service_id){
         return $condition->where('service_id',$service_id);
       });
       $orderFinalizedWorks = $query->get();
