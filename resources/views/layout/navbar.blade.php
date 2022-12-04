@@ -42,6 +42,19 @@
         </div>
         <ul class="navbar-nav  justify-content-end">
           @auth
+            <li class="nav-item d-flex align-items-center">
+              <a
+                href="{{ route('profile.index') }}"
+                class="nav-link text-body font-weight-bold px-0"
+              >
+                <img
+                  src="{{ auth()->user()->profile }}"
+                  alt="{{ auth()->user()->name }}"
+                  class="avatar avatar-sm me-3"
+                  style="object-fit: cover;"
+                >
+              </a>
+            </li>
           @else
             <li class="nav-item d-flex align-items-center">
               <a href="{{ route('login') }}" class="nav-link text-body font-weight-bold px-0">
