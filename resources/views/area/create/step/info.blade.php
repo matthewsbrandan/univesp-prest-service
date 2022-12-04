@@ -2,9 +2,10 @@
   <h5 class="font-weight-bolder pt-1">Informações do Condomínio/Região</h5>
   <div class="multisteps-form__content">
     {{ csrf_field() }}
+    @isset($area) <input type="hidden" name="area_id" value="{{ $area->id }}"> @endisset
     <div class="row mt-3">
       <div class="col-12">
-        <div class="input-group input-group-dynamic">
+        <div class="input-group input-group-dynamic {{ isset($area) && $area->name ? 'is-filled':'' }}">
           <label for="area-name" class="form-label">Nome</label>
           <input
             class="multisteps-form__input form-control"
@@ -21,7 +22,7 @@
         </div>
       </div>
       <div class="col-12 mt-3">
-        <div class="input-group input-group-dynamic">
+        <div class="input-group input-group-dynamic {{ isset($area) && $area->description ? 'is-filled':'' }}">
           <label for="area-description" class="form-label">Descrição</label>
           <textarea
             class="multisteps-form__input form-control"

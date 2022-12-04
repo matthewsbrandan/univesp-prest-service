@@ -8,7 +8,12 @@
   @endphp
 @endonce
 @php
-  $is_selected_area = auth()->user() && $area->id == auth()->user()->active_area_id;
+  $mode = isset($card_area_option) && isset($card_area_option->mode) ? 
+    $card_area_option->mode : 'default';
+  $is_selected_area = auth()->user() && $area->id == auth()->user()->active_area_id && (
+    $mode != 'edit'
+  );
+
 @endphp
 <div
   class="col-lg-4 col-md-6 card-area-item"
@@ -48,7 +53,12 @@
         <h5 class="{{ $is_selected_area ? 'text-white' : '' }}">{{ $area->name }}</h5>
       </a>
       <p class="{{ $is_selected_area ? 'text-white' : '' }}">{{ $area->description }}</p>
-      @if(!auth()->user() || !$area->iAmVinculed())
+      @if($mode == 'edit')
+        <a
+          href="{{ route('area.edit',['slug' => $area->slug]) }}"
+          class="btn btn-outline-primary btn-sm"
+        >Editar</a>
+      @elseif(!auth()->user() || !$area->iAmVinculed())
         <a
           href="{{ route('area.show',['slug' => $area->slug]) }}"
           class="btn btn-outline-primary btn-sm"

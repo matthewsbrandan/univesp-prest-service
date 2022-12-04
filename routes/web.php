@@ -55,6 +55,8 @@ Route::middleware(['auth'])->group(function(){
     Route::get('condominio/detalhes/{slug}', [AreaController::class, 'show'])->name('show');
     Route::get('condominio/criar', [AreaController::class, 'create'])->name('create');
     Route::post('condominio/salvar', [AreaController::class, 'store'])->name('store');
+    Route::get('gerenciar/condominios/', [AreaController::class, 'index'])->name('index');
+    Route::get('gerenciar/condominios/editar/{slug}', [AreaController::class, 'edit'])->name('edit');
   });
 
   Route::name('user_area.')->group(function(){

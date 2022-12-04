@@ -8,7 +8,36 @@ use App\Models\Area;
 class AreaController extends Controller
 {
   public function index(){
+    $areas = Area::whereUserId(auth()->user()->id)->get()->map(function($area){
+      return $area->loadData();
+    });
 
+    return view('area.index',[
+      'areas' => $areas
+    ]);
+  }
+  public function edit($slug){
+    if(!$area = Area::whereSlug($slug)->whereUserId(
+      auth()->user()->id
+    )->first()) return $this->sweet(
+      redirect()->back(),
+      'Condomínio não encontrado, ou você não ter permissão de alterá-lo',
+      'error',
+      'Editar Condomínio'
+    );
+
+    $address = $area->getAddress();
+
+    if(isset($address->street)) $area->street = $address->street;
+    if(isset($address->number)) $area->number = $address->number;
+    if(isset($address->district)) $area->district = $address->district;
+    if(isset($address->city)) $area->city = $address->city;
+    if(isset($address->state)) $area->state = $address->state;
+    if(isset($address->complement)) $area->complement = $address->complement;
+
+    return view('area.create.index',[
+      'area' => $area
+    ]);
   }
   public function show($slug){
     if(!$area = Area::whereSlug($slug)->first()) return $this->sweet(
@@ -49,9 +78,21 @@ class AreaController extends Controller
       'error',
       'Salvando Condomínio'
     );
+
+    $area = null;
+    if($request->area_id){
+      if(!$area = Area::whereId($request->area_id)->whereUserId(
+        auth()->user()->id
+      )->first()) return $this->sweet(
+        redirect()->back(),
+        'Condomínio não encontrado ou você não tem permissão de editá-lo',
+        'error',
+        'Editar Condomínio'
+      );
+    }
     #endregion VALIDATION
 
-    $slug =  Area::generateSlug($request->name);
+    $slug = $area ? $area->slug : Area::generateSlug($request->name);
     $data = [
       'slug' => $slug,
       'name' => $request->name,
@@ -87,7 +128,9 @@ class AreaController extends Controller
     );
     #endregion IMAGE
 
-    $area = Area::create($data);
+    $area = Area::updateOrCreate([
+      'id' => $request->area_id ?? null
+    ],$data);
 
     UserAreaController::storeUserArea($area->id);
 
